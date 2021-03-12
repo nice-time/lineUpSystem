@@ -1,0 +1,54 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE generatorConfiguration-->
+<!--        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">-->
+<!--&lt;!&ndash; mybatis-generator的核心配置文件 &ndash;&gt;-->
+<!--<generatorConfiguration>-->
+<!--  <classPathEntry location="E:/MAVEN_REPO/repository/repository/mysql/mysql-connector-java/8.0.15/mysql-connector-java-8.0.15.jar" />-->
+
+<!--  <context id="DB2Tables" targetRuntime="MyBatis3">-->
+<!--    <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"-->
+<!--                    connectionURL="jdbc:mysql://203.195.219.213:3306/wns"-->
+<!--                    userId="root"-->
+<!--                    password="jujy">-->
+<!--      &lt;!&ndash;设置为 true 可以获取 tables 信息, 解决生成文件缺少 xxxByPrimaryKey&ndash;&gt;-->
+<!--      <property name="useInformationSchema" value="true"/>-->
+<!--    </jdbcConnection>-->
+
+<!--    &lt;!&ndash;指定生成的类型为java类型，避免数据库中number等类型字段 &ndash;&gt;-->
+<!--    <javaTypeResolver >-->
+<!--      <property name="forceBigDecimals" value="false" />-->
+<!--    </javaTypeResolver>-->
+
+<!--    &lt;!&ndash;自动生成的实体的存放包路径 &ndash;&gt;-->
+<!--    <javaModelGenerator targetPackage="com.briup.apps.wns.bean" targetProject="./src/main/java">-->
+<!--      <property name="enableSubPackages" value="true" />-->
+<!--      <property name="trimStrings" value="true" />-->
+<!--    </javaModelGenerator>-->
+
+<!--    &lt;!&ndash;自动生成的*Mapper.xml文件存放路径 &ndash;&gt;-->
+<!--    <sqlMapGenerator targetPackage="mapper"  targetProject="./src/main/resources">-->
+<!--      <property name="enableSubPackages" value="true" />-->
+<!--    </sqlMapGenerator>-->
+
+<!--    &lt;!&ndash;自动生成的*Mapper.java存放路径 &ndash;&gt;-->
+<!--    <javaClientGenerator type="XMLMAPPER" targetPackage="com.briup.apps.wns.mapper"  targetProject="./src/main/java">-->
+<!--      <property name="enableSubPackages" value="true" />-->
+<!--    </javaClientGenerator>-->
+
+
+<!--    &lt;!&ndash; 映射配置 &ndash;&gt;-->
+
+<!--&lt;!&ndash;    <table tableName="student_user" domainObjectName="StuUser" ></table>&ndash;&gt;-->
+<!--&lt;!&ndash;    <table tableName="student_bf" domainObjectName="StuBf" ></table>&ndash;&gt;-->
+<!--&lt;!&ndash;    <table tableName="collage" domainObjectName="Collage" ></table>&ndash;&gt;-->
+<!--&lt;!&ndash;    <table tableName="major" domainObjectName="Major" ></table>&ndash;&gt;-->
+<!--&lt;!&ndash;    <table tableName="course" domainObjectName="Course" ></table>&ndash;&gt;-->
+<!--&lt;!&ndash;    <table tableName="teacher_user" domainObjectName="TeaUser" ></table>&ndash;&gt;-->
+<!--&lt;!&ndash;    <table tableName="map" domainObjectName="Map" ></table>&ndash;&gt;-->
+<!--&lt;!&ndash;    <table tableName="info" domainObjectName="Info" ></table>&ndash;&gt;-->
+
+<!--    &lt;!&ndash; mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate &ndash;&gt;-->
+
+<!--  </context>-->
+<!--</generatorConfiguration>-->
