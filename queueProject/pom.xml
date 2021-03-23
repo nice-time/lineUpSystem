@@ -54,6 +54,20 @@
       <version>1.2.40</version>
     </dependency>
 
+
+    <!--rabbitmq Provider-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-amqp</artifactId>
+    </dependency>
+
+    <!--rabbitmq Consumer-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+
+
   </dependencies>
 
   <build>
