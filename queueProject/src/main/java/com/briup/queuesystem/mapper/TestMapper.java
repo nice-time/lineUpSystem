@@ -5,6 +5,7 @@ import com.briup.queuesystem.bean.TestBean;
 /**
  * @author lijx
  */
+
 public interface TestMapper {
 
 
