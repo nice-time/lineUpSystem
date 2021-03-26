@@ -1,13 +1,24 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     name: sysqueue
     url: jdbc:mysql://121.196.174.196:3306/projectDB
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: rabbitmq-provider
+  rabbitmq:
+    host: 121.196.174.196
+    port: 5672
+    username: root
+    password: root
 
 server:
   port: 8080
+  servlet:
+    context-path: /queuePro
 
 mybatis:
   mapper-locations: classpath*:./mapper/*.xml
