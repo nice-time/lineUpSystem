@@ -1,16 +1,17 @@
-package com.briup.queuesystem.rabbitMQ.provider;
+package com.briup.queuesystem.controller.rabbitMQ;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.util.StringUtils;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.thymeleaf.util.StringUtils;
 
 @RestController
 @RequestMapping("/RabbitMQTest")
