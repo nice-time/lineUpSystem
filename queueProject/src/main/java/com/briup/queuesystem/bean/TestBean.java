@@ -10,7 +10,7 @@ public class TestBean implements Serializable {
   private int id;
   private String name;
   private int age;
-  private sexEnum sex;
+  sexEnum sex;
   private String CREATE_TIME;
   private String MODIFY_TIME;
 
