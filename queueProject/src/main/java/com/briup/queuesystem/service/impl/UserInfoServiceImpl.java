@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,17 +25,20 @@ public class UserInfoServiceImpl implements UserInfoService {
   @Resource
   private ReslineInfoDao reslineInfoDao;
 
+  @Autowired
+  private RedisTemplate redisTemplate;
+
   @Override
   public Message InsertUserInfo(ReslineInfo userInfo) throws ParseException {
     List<ReslineInfo> reslineInfoList = new ArrayList<>();
-    RedisTemplate<String, String> userNumber = new RedisTemplate<>();
-    RedisStandaloneConfiguration rsc = new RedisStandaloneConfiguration();
-    rsc.setPort(6379);
-    rsc.setPassword("123456");
-    rsc.setHostName("121.196.174.196");
-    JedisConnectionFactory fac = new JedisConnectionFactory(rsc);
-    userNumber.setConnectionFactory(fac);
-    userNumber.afterPropertiesSet();
+//    RedisTemplate<String, String> userNumber = new RedisTemplate<>();
+//    RedisStandaloneConfiguration rsc = new RedisStandaloneConfiguration();
+//    rsc.setPort(6379);
+//    rsc.setPassword("123456");
+//    rsc.setHostName("121.196.174.196");
+//    JedisConnectionFactory fac = new JedisConnectionFactory(rsc);
+//    userNumber.setConnectionFactory(fac);
+//    userNumber.afterPropertiesSet();
 
     if (Integer.parseInt(userInfo.getPeople()) > 10 || Integer.parseInt(userInfo.getPeople()) < 1) {
       return MessageUtil.error("请输入正确的人数");
@@ -55,9 +59,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     //  开始取号码
     String number;
     if (userInfo.getCategoryId() == 1) {
-      number = userNumber.opsForValue().get(pDayFormat + "A");
+      number = (String) redisTemplate.opsForValue().get(pDayFormat + "A");
       if (StringUtils.isEmpty(number)) {
-        userNumber.opsForValue().set(pDayFormat + "A", "1");
+        redisTemplate.opsForValue().set(pDayFormat + "A", "1");
         userInfo.setNumber("A01");
       } else {
         int numberAdd = Integer.parseInt(number);
@@ -66,12 +70,12 @@ public class UserInfoServiceImpl implements UserInfoService {
         } else {
           userInfo.setNumber("A" + numberAdd);
         }
-        userNumber.opsForValue().set(pDayFormat + "A", String.valueOf(numberAdd));
+        redisTemplate.opsForValue().set(pDayFormat + "A", String.valueOf(numberAdd));
       }
     } else {
-      number = userNumber.opsForValue().get(pDayFormat + "B");
+      number = (String) redisTemplate.opsForValue().get(pDayFormat + "B");
       if (StringUtils.isEmpty(number)) {
-        userNumber.opsForValue().set(pDayFormat + "B", "1");
+        redisTemplate.opsForValue().set(pDayFormat + "B", "1");
         userInfo.setNumber("B01");
       } else {
         int numberAdd = Integer.parseInt(number);
@@ -80,7 +84,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         } else {
           userInfo.setNumber("B" + numberAdd);
         }
-        userNumber.opsForValue().set(pDayFormat + "B", String.valueOf(numberAdd));
+        redisTemplate.opsForValue().set(pDayFormat + "B", String.valueOf(numberAdd));
       }
     }
     if (reslineInfoDao.insert(userInfo) > 0) {
