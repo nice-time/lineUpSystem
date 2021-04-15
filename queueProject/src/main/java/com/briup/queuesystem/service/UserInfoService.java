@@ -9,4 +9,6 @@ public interface UserInfoService {
 
   Message InsertUserInfo(ReslineInfo userInfo) throws ParseException;
 
+  ReslineInfo searchWaitUserInfoByPhoneNumber(String phoneNumber);
+
 }

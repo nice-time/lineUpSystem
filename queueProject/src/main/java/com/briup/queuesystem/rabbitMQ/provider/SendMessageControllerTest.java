@@ -15,6 +15,7 @@ import org.thymeleaf.util.StringUtils;
 @RestController
 @RequestMapping("/RabbitMQTest")
 public class SendMessageControllerTest {
+
   // 使用RabbitTemplate,这提供了接收/发送等等方法
   @Autowired
   RabbitTemplate rabbitTemplate;
@@ -22,10 +23,11 @@ public class SendMessageControllerTest {
   @GetMapping("/sendDirectMessage")
   public String sendDirectMessage(String message) {
     String messageId = String.valueOf(UUID.randomUUID());
-    if (StringUtils.isEmpty(message)){
+    if (StringUtils.isEmpty(message)) {
       return "发送消息不能为空！";
     }
-    String createTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    String createTime = LocalDateTime.now()
+        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     Map<String, Object> map = new HashMap<>();
     map.put("messageId", messageId);
     map.put("messageData", message);

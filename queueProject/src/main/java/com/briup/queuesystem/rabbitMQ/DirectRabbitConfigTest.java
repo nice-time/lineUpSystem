@@ -7,7 +7,9 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** @author lijx */
+/**
+ * @author lijx
+ */
 @Configuration
 public class DirectRabbitConfigTest {
 

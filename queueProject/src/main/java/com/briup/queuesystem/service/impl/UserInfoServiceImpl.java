@@ -1,21 +1,18 @@
 package com.briup.queuesystem.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.briup.queuesystem.bean.ReslineInfo;
 import com.briup.queuesystem.mapper.ReslineInfoDao;
 import com.briup.queuesystem.service.UserInfoService;
 import com.briup.queuesystem.utils.Message;
 import com.briup.queuesystem.utils.MessageUtil;
-import com.briup.queuesystem.utils.RedisConfig;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.RedisClusterCallback;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
@@ -36,12 +33,12 @@ public class UserInfoServiceImpl implements UserInfoService {
     userNumber.setConnectionFactory(fac);
     userNumber.afterPropertiesSet();
 
-    if (Integer.parseInt(userInfo.getPeople()) > 50 || Integer.parseInt(userInfo.getPeople()) < 1){
+    if (Integer.parseInt(userInfo.getPeople()) > 10 || Integer.parseInt(userInfo.getPeople()) < 1) {
       return MessageUtil.error("请输入正确的人数");
     }
-    if (Integer.parseInt(userInfo.getPeople()) > 5){
+    if (Integer.parseInt(userInfo.getPeople()) > 5) {
       userInfo.setCategoryId(2);
-    }else {
+    } else {
       userInfo.setCategoryId(1);
     }
     userInfo.setState("0");
@@ -54,39 +51,44 @@ public class UserInfoServiceImpl implements UserInfoService {
     userInfo.setCreatedate(parse);
     //  开始取号码
     String number;
-    if (userInfo.getCategoryId() == 1){
+    if (userInfo.getCategoryId() == 1) {
       number = userNumber.opsForValue().get(pDayFormat + "A");
-      if (StringUtils.isEmpty(number)){
-        userNumber.opsForValue().set(pDayFormat + "A","1");
+      if (StringUtils.isEmpty(number)) {
+        userNumber.opsForValue().set(pDayFormat + "A", "1");
         userInfo.setNumber("A01");
-      }else {
-        int numberAdd = Integer.valueOf(number);
-        if (++numberAdd<10){
+      } else {
+        int numberAdd = Integer.parseInt(number);
+        if (++numberAdd < 10) {
           userInfo.setNumber("A0" + numberAdd);
-        }else {
+        } else {
           userInfo.setNumber("A" + numberAdd);
         }
-        userNumber.opsForValue().set(pDayFormat + "A",String.valueOf(numberAdd));
+        userNumber.opsForValue().set(pDayFormat + "A", String.valueOf(numberAdd));
       }
-    }else {
+    } else {
       number = userNumber.opsForValue().get(pDayFormat + "B");
-      if (StringUtils.isEmpty(number)){
-        userNumber.opsForValue().set(pDayFormat + "B","1");
+      if (StringUtils.isEmpty(number)) {
+        userNumber.opsForValue().set(pDayFormat + "B", "1");
         userInfo.setNumber("B01");
-      }else {
-        int numberAdd = Integer.valueOf(number);
-        if (++numberAdd<10){
+      } else {
+        int numberAdd = Integer.parseInt(number);
+        if (++numberAdd < 10) {
           userInfo.setNumber("B0" + numberAdd);
-        }else {
+        } else {
           userInfo.setNumber("B" + numberAdd);
         }
-        userNumber.opsForValue().set(pDayFormat + "B",String.valueOf(numberAdd));
+        userNumber.opsForValue().set(pDayFormat + "B", String.valueOf(numberAdd));
       }
     }
-    if (reslineInfoDao.insert(userInfo)>0){
-      return MessageUtil.success("取号成功",userInfo.toString());
-    }else {
+    if (reslineInfoDao.insert(userInfo) > 0) {
+      return MessageUtil.success("取号成功", JSON.toJSONString(userInfo));
+    } else {
       return MessageUtil.error("取号失败，请联系管理员");
     }
+  }
+
+  @Override
+  public ReslineInfo searchWaitUserInfoByPhoneNumber(String phoneNumber) {
+    return reslineInfoDao.searchWaitUserInfoByPhoneNumber(phoneNumber);
   }
 }
