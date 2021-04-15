@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.queuesystem.mapper.ReslineInfoDao">
+  <resultMap id="BaseResultMap" type="com.briup.queuesystem.bean.ReslineInfo">
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="people" jdbcType="VARCHAR" property="people" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="eatDate" jdbcType="TIMESTAMP" property="eatdate" />
+    <result column="endDate" jdbcType="TIMESTAMP" property="enddate" />
+    <result column="p_day" jdbcType="VARCHAR" property="pDay" />
+    <result column="table_id" jdbcType="VARCHAR" property="tableId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.briup.queuesystem.bean.ReslineInfo">
+    insert into resline_info (phone, people, `state`, 
+      `number`, description, category_id, 
+      createDate, eatDate, endDate, 
+      p_day, table_id)
+    values (#{phone,jdbcType=VARCHAR}, #{people,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{number,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{eatdate,jdbcType=TIMESTAMP}, #{enddate,jdbcType=TIMESTAMP}, 
+      #{pDay,jdbcType=VARCHAR}, #{tableId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.briup.queuesystem.bean.ReslineInfo">
+    insert into resline_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="people != null">
+        people,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="number != null">
+        `number`,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="createdate != null">
+        createDate,
+      </if>
+      <if test="eatdate != null">
+        eatDate,
+      </if>
+      <if test="enddate != null">
+        endDate,
+      </if>
+      <if test="pDay != null">
+        p_day,
+      </if>
+      <if test="tableId != null">
+        table_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="people != null">
+        #{people,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eatdate != null">
+        #{eatdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null">
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pDay != null">
+        #{pDay,jdbcType=VARCHAR},
+      </if>
+      <if test="tableId != null">
+        #{tableId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

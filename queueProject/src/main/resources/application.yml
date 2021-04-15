@@ -15,6 +15,23 @@ spring:
     username: root
     password: root
 
+  redis:
+    database: 0
+    host: 121.196.174.196
+    port: 6379
+    so_timeout: 2000
+    password: 123456
+    maxRedirections: 3
+    max_attempts: 10
+    timeout: 0
+    jedis:
+      pool:
+        max-active: 200
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+
+
 server:
   port: 8081
   servlet:
