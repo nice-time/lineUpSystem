@@ -8,7 +8,9 @@ import com.briup.queuesystem.utils.Message;
 import com.briup.queuesystem.utils.MessageUtil;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -24,6 +26,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
   @Override
   public Message InsertUserInfo(ReslineInfo userInfo) throws ParseException {
+    List<ReslineInfo> reslineInfoList = new ArrayList<>();
     RedisTemplate<String, String> userNumber = new RedisTemplate<>();
     RedisStandaloneConfiguration rsc = new RedisStandaloneConfiguration();
     rsc.setPort(6379);
@@ -81,7 +84,8 @@ public class UserInfoServiceImpl implements UserInfoService {
       }
     }
     if (reslineInfoDao.insert(userInfo) > 0) {
-      return MessageUtil.success("取号成功", JSON.toJSONString(userInfo));
+      reslineInfoList.add(userInfo);
+      return MessageUtil.success("取号成功", reslineInfoList);
     } else {
       return MessageUtil.error("取号失败，请联系管理员");
     }

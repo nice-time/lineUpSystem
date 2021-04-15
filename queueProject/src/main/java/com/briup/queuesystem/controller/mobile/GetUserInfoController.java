@@ -7,6 +7,8 @@ import com.briup.queuesystem.service.UserInfoService;
 import com.briup.queuesystem.utils.Message;
 import com.briup.queuesystem.utils.MessageUtil;
 import com.briup.queuesystem.utils.legalMatch;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +29,7 @@ public class GetUserInfoController {
 
   @PostMapping("getUserInfo")
   public Message getUserInfo(@RequestBody JSONObject jsonObject) {
+    List<ReslineInfo> reslineInfoList = new ArrayList<>();
     try {
       if (jsonObject.size() == 0) {
         return MessageUtil.error("非法入参，请联系管理员");
@@ -41,8 +44,9 @@ public class GetUserInfoController {
       }
       //  应该先搜索改手机号下的 就餐信息是否 有状态为 0 的待就餐信息，有：不能取号，没有：可以取号
       ReslineInfo isWaituser = userInfoService.searchWaitUserInfoByPhoneNumber(phoneNum);
+      reslineInfoList.add(isWaituser);
       if (isWaituser != null) {
-        return MessageUtil.success("您已取号，正在排队中", JSON.toJSONString(isWaituser));
+        return MessageUtil.success("您已取号，正在排队中", reslineInfoList);
       }
       int peopleNumInt = Integer.parseInt(peopleNum);
       ReslineInfo reslineInfo = new ReslineInfo();
@@ -54,4 +58,16 @@ public class GetUserInfoController {
       return MessageUtil.error("出现异常:" + e.toString());
     }
   }
+
+  @RequestMapping("/getWaitUserInfo")
+  public Message getWaitUserInfo(@RequestBody JSONObject jsonObject){
+    String phoneNum = jsonObject.getString("phoneNum");
+    ReslineInfo reslineInfo = userInfoService.searchWaitUserInfoByPhoneNumber(phoneNum);
+    List<ReslineInfo> reslineInfoList = new ArrayList<>();
+    reslineInfoList.add(reslineInfo);
+    return MessageUtil.success("查询成功", reslineInfoList);
+  }
+
+//  @RequestMapping("")
+//  public JSONObject insert
 }
