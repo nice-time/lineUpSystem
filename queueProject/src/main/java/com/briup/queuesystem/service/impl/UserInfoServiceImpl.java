@@ -1,6 +1,5 @@
 package com.briup.queuesystem.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.briup.queuesystem.bean.ReslineInfo;
 import com.briup.queuesystem.mapper.ReslineInfoDao;
 import com.briup.queuesystem.service.UserInfoService;
@@ -13,8 +12,6 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
@@ -31,15 +28,6 @@ public class UserInfoServiceImpl implements UserInfoService {
   @Override
   public Message InsertUserInfo(ReslineInfo userInfo) throws ParseException {
     List<ReslineInfo> reslineInfoList = new ArrayList<>();
-//    RedisTemplate<String, String> userNumber = new RedisTemplate<>();
-//    RedisStandaloneConfiguration rsc = new RedisStandaloneConfiguration();
-//    rsc.setPort(6379);
-//    rsc.setPassword("123456");
-//    rsc.setHostName("121.196.174.196");
-//    JedisConnectionFactory fac = new JedisConnectionFactory(rsc);
-//    userNumber.setConnectionFactory(fac);
-//    userNumber.afterPropertiesSet();
-
     if (Integer.parseInt(userInfo.getPeople()) > 10 || Integer.parseInt(userInfo.getPeople()) < 1) {
       return MessageUtil.error("请输入正确的人数");
     }

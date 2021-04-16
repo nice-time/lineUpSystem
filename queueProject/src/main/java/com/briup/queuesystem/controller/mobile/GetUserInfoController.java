@@ -1,6 +1,5 @@
 package com.briup.queuesystem.controller.mobile;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.briup.queuesystem.bean.ReslineInfo;
 import com.briup.queuesystem.service.UserInfoService;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.util.StringUtils;
 
 /**
  * @author lijx
@@ -77,6 +77,11 @@ public class GetUserInfoController {
     }
   }
 
+  /**
+   * 获取已取号（resline_info 有值）但未就餐（且 state为0）的用户
+   * @param jsonObject  入参：用户手机号码
+   * @return
+   */
   @RequestMapping("/getWaitUserInfo")
   public Message getWaitUserInfo(@RequestBody JSONObject jsonObject){
     String phoneNum = jsonObject.getString("phoneNum");
@@ -86,6 +91,14 @@ public class GetUserInfoController {
     return MessageUtil.success("查询成功", reslineInfoList);
   }
 
-//  @RequestMapping("")
-//  public JSONObject insert
+  @RequestMapping("/insertSuggestInfo")
+  public Message insertSuggestInfo(@RequestBody JSONObject jsonObject){
+    String suggestion = jsonObject.getString("suggestion");
+    if (StringUtils.isEmpty(suggestion)){
+      return MessageUtil.error("评价内容不能为空");
+    }
+    String name  = jsonObject.getString("name") == null ? "" : jsonObject.getString("name");
+    String number = jsonObject.getString("number") == null ? "" : jsonObject.getString("number");
+    return null;
+  }
 }
