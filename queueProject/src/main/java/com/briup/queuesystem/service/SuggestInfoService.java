@@ -1,0 +1,18 @@
+package com.briup.queuesystem.service;
+
+import com.briup.queuesystem.bean.ReslineCategory;
+import com.briup.queuesystem.bean.ReslineSuggestInfo;
+
+import java.util.List;
+
+public interface SuggestInfoService {
+
+
+    void insert(ReslineSuggestInfo reslineSuggestInfo);
+
+    Integer update(ReslineSuggestInfo reslineSuggestInfo);
+
+    List<ReslineSuggestInfo> getAll();
+
+    Integer del(List<String> id);
+}

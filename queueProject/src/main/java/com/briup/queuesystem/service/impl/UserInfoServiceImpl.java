@@ -1,6 +1,7 @@
 package com.briup.queuesystem.service.impl;
 
 import com.briup.queuesystem.bean.ReslineInfo;
+import com.briup.queuesystem.bean.ReslineUser;
 import com.briup.queuesystem.mapper.ReslineInfoDao;
 import com.briup.queuesystem.service.UserInfoService;
 import com.briup.queuesystem.utils.Message;
@@ -86,5 +87,25 @@ public class UserInfoServiceImpl implements UserInfoService {
   @Override
   public ReslineInfo searchWaitUserInfoByPhoneNumber(String phoneNumber) {
     return reslineInfoDao.searchWaitUserInfoByPhoneNumber(phoneNumber);
+  }
+
+  @Override
+  public void insert(ReslineUser reslineUser) {
+
+  }
+
+  @Override
+  public Integer update(ReslineUser reslineUse) {
+    return null;
+  }
+
+  @Override
+  public List<ReslineUser> getAll() {
+    return null;
+  }
+
+  @Override
+  public Integer del(List<String> id) {
+    return null;
   }
 }
