@@ -3,12 +3,13 @@ package com.briup.queuesystem.service;
 import com.briup.queuesystem.bean.ReslineCategory;
 import com.briup.queuesystem.bean.ReslineSuggestInfo;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface SuggestInfoService {
 
 
-    void insert(ReslineSuggestInfo reslineSuggestInfo);
+    int insert(ReslineSuggestInfo reslineSuggestInfo) throws ParseException;
 
     Integer update(ReslineSuggestInfo reslineSuggestInfo);
 

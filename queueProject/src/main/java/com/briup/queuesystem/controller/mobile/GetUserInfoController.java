@@ -2,10 +2,13 @@ package com.briup.queuesystem.controller.mobile;
 
 import com.alibaba.fastjson.JSONObject;
 import com.briup.queuesystem.bean.ReslineInfo;
+import com.briup.queuesystem.bean.ReslineSuggestInfo;
+import com.briup.queuesystem.service.SuggestInfoService;
 import com.briup.queuesystem.service.UserInfoService;
 import com.briup.queuesystem.utils.Message;
 import com.briup.queuesystem.utils.MessageUtil;
 import com.briup.queuesystem.utils.legalMatch;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
@@ -26,6 +29,9 @@ public class GetUserInfoController {
 
   @Resource
   private UserInfoService userInfoService;
+
+  @Resource
+  private SuggestInfoService suggestInfoService;
 
   /**
    * 用户取号接口
@@ -92,13 +98,33 @@ public class GetUserInfoController {
   }
 
   @RequestMapping("/insertSuggestInfo")
-  public Message insertSuggestInfo(@RequestBody JSONObject jsonObject){
-    String suggestion = jsonObject.getString("suggestion");
-    if (StringUtils.isEmpty(suggestion)){
-      return MessageUtil.error("评价内容不能为空");
+  public Message insertSuggestInfo(@RequestBody JSONObject jsonObject) throws ParseException {
+    try{
+      String suggestion = jsonObject.getString("suggestion");
+      if (StringUtils.isEmpty(suggestion)){
+        return MessageUtil.error("评价内容不能为空");
+      }
+      String name  = jsonObject.getString("name") == null ? "" : jsonObject.getString("name");
+      String number = jsonObject.getString("number") == null ? "" : jsonObject.getString("number");
+      if (!StringUtils.isEmpty(number)){
+        if (!legalMatch.isPhoneLegal(number)) {
+          return MessageUtil.error("请输入正确的手机号码");
+        }
+      }
+      ReslineSuggestInfo reslineSuggestInfo = new ReslineSuggestInfo();
+      reslineSuggestInfo.setSuggestion(suggestion);
+      reslineSuggestInfo.setName(name);
+      reslineSuggestInfo.setNumber(number);
+      int insert = suggestInfoService.insert(reslineSuggestInfo);
+      if (insert>0){
+        return MessageUtil.success("评论成功");
+      }else {
+        return MessageUtil.error("评论失败，insert=0");
+      }
+    }catch (Exception e){
+      //  捕获异常，打印并曝出异常
+      e.printStackTrace();
+      return MessageUtil.error("出现异常:" + e.toString());
     }
-    String name  = jsonObject.getString("name") == null ? "" : jsonObject.getString("name");
-    String number = jsonObject.getString("number") == null ? "" : jsonObject.getString("number");
-    return null;
   }
 }

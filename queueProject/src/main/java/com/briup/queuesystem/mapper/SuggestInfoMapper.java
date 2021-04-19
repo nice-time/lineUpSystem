@@ -13,10 +13,10 @@ public interface SuggestInfoMapper {
 
 
     @Insert("insert into resline_suggestInfo values(#{Info.suggestId},#{Info.name}," +
-            "#{Info.number},#{Info.suggestion})")
-    Integer insert(ReslineSuggestInfo Info);
+            "#{Info.number},#{Info.suggestion},#{Info.time})")
+    Integer insert(@Param("Info") ReslineSuggestInfo Info);
 
-    @Update("update resline_suggestInfo set #{}  where suggestId = #{}")
+    @Update("")
     Integer update(ReslineSuggestInfo Info);
 
     @Select("select * from resline_suggestInfo")
