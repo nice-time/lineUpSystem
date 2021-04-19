@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AnnouncementService {
 
-    void insert(ReslineAnnouncement reslineAnnouncement);
+    int insert(ReslineAnnouncement reslineAnnouncement);
 
     Integer update(ReslineAnnouncement reslineAnnouncement);
 

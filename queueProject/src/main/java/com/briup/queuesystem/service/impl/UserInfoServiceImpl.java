@@ -39,7 +39,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
     userInfo.setState("0");
     Date date = new Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     SimpleDateFormat pDay = new SimpleDateFormat("yyyyMMdd");
     Date parse = formatter.parse(formatter.format(date));
     String pDayFormat = pDay.format(date);
