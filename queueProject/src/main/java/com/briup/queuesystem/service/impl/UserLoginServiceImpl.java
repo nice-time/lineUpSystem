@@ -15,9 +15,9 @@ public class UserLoginServiceImpl implements UserLoginService {
   @Override
   public ReslineUser userLogin(String userNumber, String passWord) {
     ReslineUser reslineUser = userMapper.userLogin(userNumber, passWord);
-    if (reslineUser != null){
+    if (reslineUser != null) {
       return reslineUser;
-    }else {
+    } else {
       return null;
     }
   }

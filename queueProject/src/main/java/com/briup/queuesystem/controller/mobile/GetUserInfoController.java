@@ -35,10 +35,11 @@ public class GetUserInfoController {
 
   /**
    * 用户取号接口
-   * @param jsonObject  入参：phoneNum 手机号码，peopleNum 就餐人数
-   * @return  成功取号 或 异常失败 信息
+   *
+   * @param jsonObject 入参：phoneNum 手机号码，peopleNum 就餐人数
+   * @return 成功取号 或 异常失败 信息
    */
-  @PostMapping("getUserInfo")
+  @PostMapping("/getUserInfo")
   public Message getUserInfo(@RequestBody JSONObject jsonObject) {
     //  新建一个List为了返回值的格式
     List<ReslineInfo> reslineInfoList = new ArrayList<>();
@@ -85,11 +86,12 @@ public class GetUserInfoController {
 
   /**
    * 获取已取号（resline_info 有值）但未就餐（且 state为0）的用户
-   * @param jsonObject  入参：用户手机号码
+   *
+   * @param jsonObject 入参：用户手机号码
    * @return
    */
   @RequestMapping("/getWaitUserInfo")
-  public Message getWaitUserInfo(@RequestBody JSONObject jsonObject){
+  public Message getWaitUserInfo(@RequestBody JSONObject jsonObject) {
     String phoneNum = jsonObject.getString("phoneNum");
     ReslineInfo reslineInfo = userInfoService.searchWaitUserInfoByPhoneNumber(phoneNum);
     List<ReslineInfo> reslineInfoList = new ArrayList<>();
@@ -99,14 +101,14 @@ public class GetUserInfoController {
 
   @RequestMapping("/insertSuggestInfo")
   public Message insertSuggestInfo(@RequestBody JSONObject jsonObject) throws ParseException {
-    try{
+    try {
       String suggestion = jsonObject.getString("suggestion");
-      if (StringUtils.isEmpty(suggestion)){
+      if (StringUtils.isEmpty(suggestion)) {
         return MessageUtil.error("评价内容不能为空");
       }
-      String name  = jsonObject.getString("name") == null ? "" : jsonObject.getString("name");
+      String name = jsonObject.getString("name") == null ? "" : jsonObject.getString("name");
       String number = jsonObject.getString("number") == null ? "" : jsonObject.getString("number");
-      if (!StringUtils.isEmpty(number)){
+      if (!StringUtils.isEmpty(number)) {
         if (!legalMatch.isPhoneLegal(number)) {
           return MessageUtil.error("请输入正确的手机号码");
         }
@@ -116,12 +118,12 @@ public class GetUserInfoController {
       reslineSuggestInfo.setName(name);
       reslineSuggestInfo.setNumber(number);
       int insert = suggestInfoService.insert(reslineSuggestInfo);
-      if (insert>0){
+      if (insert > 0) {
         return MessageUtil.success("评论成功");
-      }else {
+      } else {
         return MessageUtil.error("评论失败，insert=0");
       }
-    }catch (Exception e){
+    } catch (Exception e) {
       //  捕获异常，打印并曝出异常
       e.printStackTrace();
       return MessageUtil.error("出现异常:" + e.toString());

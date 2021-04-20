@@ -14,30 +14,43 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
   @Resource
   AnnouncementMapper announcementMapper;
+  SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 
   @Override
   public int insert(ReslineAnnouncement reslineAnnouncement) {
     Date date = new Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String pDayFormat = formatter.format(date);
     reslineAnnouncement.setCreateDate(pDayFormat);
     reslineAnnouncement.setLastupdate(pDayFormat);
     return announcementMapper.insert(reslineAnnouncement);
-
   }
 
   @Override
   public Integer update(ReslineAnnouncement reslineAnnouncement) {
-    return null;
+    Date date = new Date();
+    String pDayFormat = formatter.format(date);
+    reslineAnnouncement.setLastupdate(pDayFormat);
+    return announcementMapper.update(reslineAnnouncement);
   }
 
   @Override
   public List<ReslineAnnouncement> getAll() {
-    return null;
+    return announcementMapper.getAll();
   }
 
   @Override
   public Integer del(List<String> id) {
-    return null;
+    return announcementMapper.del(id);
+  }
+
+  @Override
+  public Integer delOne(String id) {
+    return announcementMapper.delOne(id);
+  }
+
+  @Override
+  public ReslineAnnouncement selectById(String id) {
+    return announcementMapper.selectById(id);
   }
 }

@@ -8,27 +8,27 @@ import lombok.Data;
 public class ReslineSuggestInfo {
 
 
-    private String suggestId;
+  private String suggestId;
 
-    private String name ;
+  private String name;
 
-    private String number;
+  private String number;
 
-    private String suggestion;
+  private String suggestion;
 
-    private Date time;
+  private Date time;
 
 
-    public JSONObject toJsonObject(ReslineSuggestInfo reslineSuggestInfo){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("suggestId",reslineSuggestInfo.getSuggestId());
-        jsonObject.put("name",reslineSuggestInfo.getName());
-        jsonObject.put("number",reslineSuggestInfo.getNumber());
-        jsonObject.put("suggestion",reslineSuggestInfo.getSuggestion());
-        jsonObject.put("time",reslineSuggestInfo.getTime());
+  public JSONObject toJsonObject(ReslineSuggestInfo reslineSuggestInfo) {
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("suggestId", reslineSuggestInfo.getSuggestId());
+    jsonObject.put("name", reslineSuggestInfo.getName());
+    jsonObject.put("number", reslineSuggestInfo.getNumber());
+    jsonObject.put("suggestion", reslineSuggestInfo.getSuggestion());
+    jsonObject.put("time", reslineSuggestInfo.getTime());
 
-        return jsonObject;
-    }
+    return jsonObject;
+  }
 
 
 }

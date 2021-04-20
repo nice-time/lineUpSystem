@@ -1,11 +1,14 @@
 package com.briup.queuesystem.mapper;
 
-import com.briup.queuesystem.bean.ReslineAnnouncement;
 import com.briup.queuesystem.bean.ReslineSuggestInfo;
-import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository

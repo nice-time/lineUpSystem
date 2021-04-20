@@ -29,17 +29,17 @@ public class ReslineInfo implements Serializable {
   //  桌型ID -- 1-A 2-B
   private Integer categoryId;
   //  创建时间
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   @ApiModelProperty("创建时间，格式：yyyy-MM-dd HH:mm:ss")
   private Date createdate;
   //  就餐时间
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   @ApiModelProperty("创建时间，格式：yyyy-MM-dd HH:mm:ss")
   private Date eatdate;
   //  结束时间
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   @ApiModelProperty("创建时间，格式：yyyy-MM-dd HH:mm:ss")
   private Date enddate;

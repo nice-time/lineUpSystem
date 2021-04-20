@@ -11,24 +11,30 @@ import java.util.List;
 @Repository
 public interface AnnouncementMapper {
 
-    @Insert("insert into resline_announcement values(#{Info.id},#{Info.caption}," +
-            "#{Info.contents},#{Info.createDate},#{Info.lastupdate})")
-    Integer insert(@Param("Info") ReslineAnnouncement Info);
+  @Insert("insert into resline_announcement values(#{Info.id},#{Info.caption}," +
+      "#{Info.contents},#{Info.createDate},#{Info.lastupdate})")
+  Integer insert(@Param("Info") ReslineAnnouncement Info);
 
-    @Update("")
-    Integer update(ReslineAnnouncement Info);
+  @Update("update resline_announcement set caption=#{Info.caption},contents=#{Info.contents},lastupdate=#{Info.lastupdate} where id = #{Info.id}")
+  Integer update(@Param("Info") ReslineAnnouncement Info);
 
-    @Select("select * from resline_announcement order by lastupdate desc")
-    List<ReslineAnnouncement> getAll();
+  @Select("select * from resline_announcement order by lastupdate desc")
+  List<ReslineAnnouncement> getAll();
 
-    @Delete("<script>" +
-            "delete from resline_announcement where id in " +
-            "(" +
-            "<foreach collection='list' item='String' index='index' separator=','>" +
-            " #{String}" +
-            "</foreach>" +
-            ")" +
-            "</script>")
-    Integer del(List<String> list);
+  @Delete("<script>" +
+      "delete from resline_announcement where id in " +
+      "(" +
+      "<foreach collection='list' item='String' index='index' separator=','>" +
+      " #{String}" +
+      "</foreach>" +
+      ")" +
+      "</script>")
+  Integer del(List<String> list);
+
+  @Delete("delete from resline_announcement where id = #{id}")
+  Integer delOne(String id);
+
+  @Select("select * from resline_announcement where id = #{id}")
+  ReslineAnnouncement selectById(String id);
 
 }
