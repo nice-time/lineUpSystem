@@ -7,8 +7,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class AnnouncementServiceImpl implements AnnouncementService {
 
@@ -35,8 +38,13 @@ public class AnnouncementServiceImpl implements AnnouncementService {
   }
 
   @Override
-  public List<ReslineAnnouncement> getAll() {
-    return announcementMapper.getAll();
+  public List<ReslineAnnouncement> getAll(String text) {
+
+    log.info("{}",text);
+    if(null == text || "".equals(text)) text = "";
+            else text = "'%"+text+"%'";
+      return announcementMapper.getAll(text);
+
   }
 
   @Override

@@ -8,11 +8,14 @@ import com.briup.queuesystem.utils.MessageUtil;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Resource;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.util.StringUtils;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/MessageManagement")
 public class MessageManagementConreoller {
@@ -47,9 +50,9 @@ public class MessageManagementConreoller {
   }
 
   @RequestMapping("/MessageSearchAll")
-  public Message MessageSearchAll() {
+  public Message MessageSearchAll(String text) {
     try {
-      return MessageUtil.success("获取成功", announcementService.getAll());
+      return MessageUtil.success("获取成功", announcementService.getAll(text));
     } catch (Exception e) {
       //  捕获异常，打印并曝出异常
       e.printStackTrace();

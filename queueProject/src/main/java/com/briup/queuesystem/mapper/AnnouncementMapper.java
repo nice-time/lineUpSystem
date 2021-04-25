@@ -18,8 +18,14 @@ public interface AnnouncementMapper {
   @Update("update resline_announcement set caption=#{Info.caption},contents=#{Info.contents},lastupdate=#{Info.lastupdate} where id = #{Info.id}")
   Integer update(@Param("Info") ReslineAnnouncement Info);
 
-  @Select("select * from resline_announcement order by lastupdate desc")
-  List<ReslineAnnouncement> getAll();
+  @Select("<script>" +
+          "select * from resline_announcement " +
+          "<if test = 'text != \"\" ' >" +
+          "where contents like ${text} or caption like ${text} " +
+          "</if>" +
+          "order by lastupdate desc" +
+          "</script>")
+  List<ReslineAnnouncement> getAll(String text);
 
   @Delete("<script>" +
       "delete from resline_announcement where id in " +

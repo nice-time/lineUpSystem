@@ -9,7 +9,7 @@ public interface AnnouncementService {
 
   Integer update(ReslineAnnouncement reslineAnnouncement);
 
-  List<ReslineAnnouncement> getAll();
+  List<ReslineAnnouncement> getAll(String text);
 
   Integer del(List<String> id);
 
