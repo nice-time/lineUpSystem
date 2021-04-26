@@ -12,4 +12,8 @@ public interface ReslineInfoDao {
   List<ReslineInfo> searchUserInfoByPhoneNumber(String phoneNumbber);
 
   ReslineInfo searchWaitUserInfoByPhoneNumber(String phoneNumber);
+
+  List<ReslineInfo> getSmallWaitUserInfo();
+
+  List<ReslineInfo> getBigWaitUserInfo();
 }

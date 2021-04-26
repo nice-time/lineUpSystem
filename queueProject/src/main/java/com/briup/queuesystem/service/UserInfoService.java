@@ -12,6 +12,10 @@ public interface UserInfoService {
 
   ReslineInfo searchWaitUserInfoByPhoneNumber(String phoneNumber);
 
+  List<ReslineInfo> getSmallWaitUserInfo();
+
+  List<ReslineInfo> getBigWaitUserInfo();
+
   void insert(ReslineUser reslineUser);
 
   Integer update(ReslineUser reslineUse);

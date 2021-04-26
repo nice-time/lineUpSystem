@@ -115,4 +115,15 @@
     <include refid="BaseKey"/>
     from resline_info where phone = #{phoneNumbber} and state = '0'
   </select>
+<!--  获取所有等待就餐的顾客  按创建时间升序排列 -->
+  <select id="getSmallWaitUserInfo" resultType="com.briup.queuesystem.bean.ReslineInfo">
+    select
+    <include refid="BaseKey"/>
+    from resline_info where people &lt;= 5 and state = 0;
+  </select>
+  <select id="getBigWaitUserInfo" resultType="com.briup.queuesystem.bean.ReslineInfo">
+    select
+    <include refid="BaseKey"/>
+    from resline_info where people &gt;= 5 and state = 0;
+  </select>
 </mapper>

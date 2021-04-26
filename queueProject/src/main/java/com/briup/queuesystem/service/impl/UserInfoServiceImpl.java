@@ -90,6 +90,16 @@ public class UserInfoServiceImpl implements UserInfoService {
   }
 
   @Override
+  public List<ReslineInfo> getSmallWaitUserInfo() {
+    return reslineInfoDao.getSmallWaitUserInfo();
+  }
+
+  @Override
+  public List<ReslineInfo> getBigWaitUserInfo() {
+    return reslineInfoDao.getBigWaitUserInfo();
+  }
+
+  @Override
   public void insert(ReslineUser reslineUser) {
 
   }
