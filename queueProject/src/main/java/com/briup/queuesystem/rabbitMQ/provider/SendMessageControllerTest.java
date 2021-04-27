@@ -3,6 +3,7 @@ package com.briup.queuesystem.rabbitMQ.provider;
 import com.alibaba.fastjson.JSONObject;
 import com.briup.queuesystem.utils.Message;
 import com.briup.queuesystem.utils.MessageUtil;
+import java.nio.charset.StandardCharsets;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,13 +40,16 @@ public class SendMessageControllerTest {
       map.put("messageData", number);
       map.put("createTime", createTime);
       //  应该将叫号信息插入一张表
+      //  本地测试时需要将云上的项目停掉 否则会自动消费掉消息
       // 将消息携带绑定键值：TestDirectRouting 发送到交换机TestDirectExchange
       rabbitTemplate.convertAndSend("TestDirectExchange", "TestDirectRouting", map);
-      return MessageUtil.error("叫号成功");
+      return MessageUtil.success("叫号成功");
     }catch (Exception e){
       //  捕获异常，打印并曝出异常
       e.printStackTrace();
       return MessageUtil.error("出现异常:" + e.toString());
     }
   }
+
+
 }
