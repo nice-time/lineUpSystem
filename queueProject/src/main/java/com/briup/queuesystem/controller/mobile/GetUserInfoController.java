@@ -64,7 +64,7 @@ public class GetUserInfoController {
       ReslineInfo isWaituser = userInfoService.searchWaitUserInfoByPhoneNumber(phoneNum);
       reslineInfoList.add(isWaituser);
       //  ReslineInfo 不为空说明 该手机号已经取过号并且没有就餐，返回信息。
-      if (isWaituser != null) {
+      if (isWaituser != null && "0".equals(isWaituser.getState())) {
         return MessageUtil.success("您已取号，正在排队中", reslineInfoList);
       }
       //  将人数转为int类型
