@@ -90,6 +90,11 @@ public class UserInfoServiceImpl implements UserInfoService {
   }
 
   @Override
+  public int selectBeforePeopleNum(String phoneNumber) {
+    return reslineInfoDao.selectBeforePeopleNum(phoneNumber);
+  }
+
+  @Override
   public List<ReslineInfo> getSmallWaitUserInfo() {
     return reslineInfoDao.getSmallWaitUserInfo();
   }

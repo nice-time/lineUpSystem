@@ -99,6 +99,13 @@ public class GetUserInfoController {
     return MessageUtil.success("查询成功", reslineInfoList);
   }
 
+  @RequestMapping("/getWaitUserNum")
+  public Message getwWaitUserNum(@RequestBody JSONObject jsonObject) {
+    String phoneNum = jsonObject.getString("phoneNum");
+    int i = userInfoService.selectBeforePeopleNum(phoneNum);
+    return MessageUtil.success("查询成功", i);
+  }
+
   @RequestMapping("/insertSuggestInfo")
   public Message insertSuggestInfo(@RequestBody JSONObject jsonObject) throws ParseException {
     try {

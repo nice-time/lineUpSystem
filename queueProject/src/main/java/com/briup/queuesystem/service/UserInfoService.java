@@ -12,6 +12,8 @@ public interface UserInfoService {
 
   ReslineInfo searchWaitUserInfoByPhoneNumber(String phoneNumber);
 
+  int selectBeforePeopleNum(String phoneNumber);
+
   List<ReslineInfo> getSmallWaitUserInfo();
 
   List<ReslineInfo> getBigWaitUserInfo();

@@ -113,7 +113,7 @@
     resultType="com.briup.queuesystem.bean.ReslineInfo">
     select
     <include refid="BaseKey"/>
-    from resline_info where phone = #{phoneNumbber} and ORDER BY createDate DESC LIMIT 1
+    from resline_info where phone = #{phoneNumbber} ORDER BY createDate DESC LIMIT 1
   </select>
 <!--  获取所有等待就餐的顾客  按创建时间升序排列 -->
   <select id="getSmallWaitUserInfo" resultType="com.briup.queuesystem.bean.ReslineInfo">
@@ -125,5 +125,9 @@
     select
     <include refid="BaseKey"/>
     from resline_info where people &gt;= 5 and state = 0;
+  </select>
+  <select id="selectBeforePeopleNum" resultType="java.lang.Integer">
+    SELECT count( 1 ) num FROM resline_info WHERE createDate &lt; ( SELECT createDate FROM resline_info WHERE phone = #{phoneNumber} ORDER BY createDate DESC LIMIT 1 )
+    AND state = '0'
   </select>
 </mapper>
