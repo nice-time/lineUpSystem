@@ -60,11 +60,15 @@ public class GetUserInfoController {
       if (!legalMatch.isNumber(peopleNum)) {
         return MessageUtil.error("请输入正确的人数");
       }
+      String type = jsonObject.getString("type");
       //  调用方法查询 入参的手机号码是否已经取过号，若取过且状态为待就餐（排队中）。则不插入新的取号信息，返回旧的取号信息，以供展示
       ReslineInfo isWaituser = userInfoService.searchWaitUserInfoByPhoneNumber(phoneNum);
       reslineInfoList.add(isWaituser);
       //  ReslineInfo 不为空说明 该手机号已经取过号并且没有就餐，返回信息。
-      if (isWaituser != null && "0".equals(isWaituser.getState())) {
+      if (isWaituser != null && ("0".equals(isWaituser.getState()) || "1".equals(isWaituser.getState()))) {
+        return MessageUtil.success("您已取号，正在排队中或就餐中", reslineInfoList);
+      }
+      if (isWaituser != null && "3".equals(isWaituser.getState()) && "1".equals(type)) {
         return MessageUtil.success("您已取号，正在排队中", reslineInfoList);
       }
       //  将人数转为int类型
