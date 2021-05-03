@@ -42,7 +42,7 @@ public class SendMessageControllerTest {
       //  应该将叫号信息插入一张表
       //  本地测试时需要将云上的项目停掉 否则会自动消费掉消息
       // 将消息携带绑定键值：TestDirectRouting 发送到交换机TestDirectExchange
-      rabbitTemplate.convertAndSend("TestDirectExchange", "TestDirectRouting", map);
+      rabbitTemplate.convertAndSend("TestDirectExchange", "TestDirectRouting", number);
       return MessageUtil.success("叫号成功");
     }catch (Exception e){
       //  捕获异常，打印并曝出异常

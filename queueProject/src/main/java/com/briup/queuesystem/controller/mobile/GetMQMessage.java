@@ -12,9 +12,12 @@ import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.GetResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.buf.Utf8Decoder;
 import org.apache.tomcat.util.buf.Utf8Encoder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.util.StringUtils;
 import sun.misc.BASE64Encoder;
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/getMQMessage")
@@ -54,19 +58,21 @@ public class GetMQMessage {
       channel.exchangeDeclare(EXCHANGE_NAME,"direct",true,false,null);
       channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"TestDirectRouting");
       // 创建消费者
-      Consumer consumer = new DefaultConsumer(channel) {
-        @Override
-        public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
-            byte[] body) throws IOException {
-          String msg = new String(body, "UTF-8");
-          System.out.println("Received message : '" + msg + "'");
-          System.out.println("consumerTag : " + consumerTag );
-          System.out.println("deliveryTag : " + envelope.getDeliveryTag() );
-        }
-      };
-      channel.basicConsume(QUEUE_NAME,true,consumer);
+//      Consumer consumer = new DefaultConsumer(channel) {
+//        @Override
+//        public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
+//            byte[] body) throws IOException {
+//          String msg = new String(body, "UTF-8");
+//          System.out.println("Received message : '" + msg + "'");
+//          System.out.println("consumerTag : " + consumerTag );
+//          System.out.println("deliveryTag : " + envelope.getDeliveryTag() );
+//        }
+//      };
+//      channel.basicConsume(QUEUE_NAME,true,consumer);
 //      //  拿到消息
-//      GetResponse getMessage = channel.basicGet(QUEUE_NAME, true);
+      GetResponse getMessage = channel.basicGet(QUEUE_NAME, true);
+      byte[] body = getMessage.getBody();
+      String s = new String(getMessage.getBody(), "UTF-8");
 //
 //      if (getMessage == null){
 //        return MessageUtil.error("未获取到RabbitMQ的消息");
@@ -78,7 +84,11 @@ public class GetMQMessage {
 //        String strMessage = new String(getMessage.getBody());
 //        return MessageUtil.success("获取成功",strMessage);
 //      }
-      return null;
+      return MessageUtil.success(s);
+    }catch (UnsupportedEncodingException e){
+          log.error("编码错误");
+          e.printStackTrace();
+          return  MessageUtil.error("编码错误");
     }catch (Exception e){
       //  捕获异常，打印并曝出异常
       e.printStackTrace();
