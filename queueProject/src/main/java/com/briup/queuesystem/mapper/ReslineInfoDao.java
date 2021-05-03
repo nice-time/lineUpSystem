@@ -1,6 +1,8 @@
 package com.briup.queuesystem.mapper;
 
 import com.briup.queuesystem.bean.ReslineInfo;
+import com.briup.queuesystem.bean.ReslineUser;
+
 import java.util.List;
 
 public interface ReslineInfoDao {
@@ -18,4 +20,6 @@ public interface ReslineInfoDao {
   List<ReslineInfo> getSmallWaitUserInfo();
 
   List<ReslineInfo> getBigWaitUserInfo();
+
+  int updateUserInfo(ReslineInfo reslineUse);
 }

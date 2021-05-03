@@ -89,6 +89,53 @@ public class GetUserInfoController {
   }
 
   /**
+   * 顾客重新叫号时 调用
+   * @param jsonObject
+   * @return
+   */
+  @PostMapping("/getUserInfo2")
+  public Message getUserInfo2(@RequestBody JSONObject jsonObject) {
+    //  新建一个List为了返回值的格式
+    List<ReslineInfo> reslineInfoList = new ArrayList<>();
+    try {
+      //  如果jsonObject的大小为0，说明入参异常，直接返回
+      if (jsonObject.size() == 0) {
+        return MessageUtil.error("非法入参，请联系管理员");
+      }
+      //  从JSONObject入参中，取出电话号码 phoneNum
+      String phoneNum = jsonObject.getString("phoneNum");
+      //  对电话号码进行正则校验，判断是否符合规则。符合：下一步 不符合：返回异常信息
+      if (!legalMatch.isPhoneLegal(phoneNum)) {
+        return MessageUtil.error("请输入正确的手机号码");
+      }
+      //  从JSONObject入参中，取出就餐人数 peopleNum
+      String peopleNum = jsonObject.getString("peopleNum");
+      //  正则判断 入参peopleNum字符串内容是否 是数字。是：继续 不是：返回异常信息
+      if (!legalMatch.isNumber(peopleNum)) {
+        return MessageUtil.error("请输入正确的人数");
+      }
+      //  将人数转为int类型
+      int peopleNumInt = Integer.parseInt(peopleNum);
+      //  新建一个 reslineinfo 对象
+      ReslineInfo reslineInfo = new ReslineInfo();
+      //  设置电话号码
+      reslineInfo.setPhone(phoneNum);
+      Integer update = userInfoService.update(reslineInfo);
+      //  设置就餐人数
+      reslineInfo.setPeople(String.valueOf(peopleNumInt));
+      Message message = userInfoService.InsertUserInfo(reslineInfo);
+      message.setMessage("重新取号成功");
+      //  插入信息
+      return message;
+    } catch (Exception e) {
+      //  捕获异常，打印并曝出异常
+      e.printStackTrace();
+      return MessageUtil.error("出现异常:" + e.toString());
+    }
+  }
+
+
+  /**
    * 获取已取号（resline_info 有值）但未就餐（且 state为0）的用户
    *
    * @param jsonObject 入参：用户手机号码

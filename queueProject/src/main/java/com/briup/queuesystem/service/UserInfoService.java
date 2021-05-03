@@ -20,7 +20,7 @@ public interface UserInfoService {
 
   void insert(ReslineUser reslineUser);
 
-  Integer update(ReslineUser reslineUse);
+  Integer update(ReslineInfo reslineUse);
 
   List<ReslineUser> getAll();
 

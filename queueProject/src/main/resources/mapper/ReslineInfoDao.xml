@@ -104,6 +104,13 @@
     </trim>
   </insert>
 
+
+  <update id="updateUserInfo" parameterType="com.briup.queuesystem.bean.ReslineInfo">
+    update resline_info set
+    state=#{state,jdbcType=VARCHAR}
+    where phone = #{phone,jdbcType=VARCHAR} and state = '0'
+  </update>
+
   <select id="searchUserInfoByPhoneNumber" resultType="com.briup.queuesystem.bean.ReslineInfo">
     select
     <include refid="BaseKey"/>

@@ -110,8 +110,9 @@ public class UserInfoServiceImpl implements UserInfoService {
   }
 
   @Override
-  public Integer update(ReslineUser reslineUse) {
-    return null;
+  public Integer update(ReslineInfo reslineUse) {
+    reslineUse.setState("3");
+    return reslineInfoDao.updateUserInfo(reslineUse);
   }
 
   @Override
