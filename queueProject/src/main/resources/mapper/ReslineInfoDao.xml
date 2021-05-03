@@ -113,7 +113,7 @@
     resultType="com.briup.queuesystem.bean.ReslineInfo">
     select
     <include refid="BaseKey"/>
-    from resline_info where phone = #{phoneNumbber} and state = '0'
+    from resline_info where phone = #{phoneNumbber} and ORDER BY createDate DESC LIMIT 1
   </select>
 <!--  获取所有等待就餐的顾客  按创建时间升序排列 -->
   <select id="getSmallWaitUserInfo" resultType="com.briup.queuesystem.bean.ReslineInfo">

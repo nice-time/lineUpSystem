@@ -2,31 +2,18 @@ package com.briup.queuesystem.controller.mobile;
 
 import com.briup.queuesystem.utils.Message;
 import com.briup.queuesystem.utils.MessageUtil;
-import com.fasterxml.jackson.core.json.UTF8JsonGenerator;
-import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.Consumer;
-import com.rabbitmq.client.DefaultConsumer;
-import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.GetResponse;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Base64;
-
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.buf.Utf8Decoder;
-import org.apache.tomcat.util.buf.Utf8Encoder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.thymeleaf.util.StringUtils;
-import sun.misc.BASE64Encoder;
+
+import java.io.UnsupportedEncodingException;
 
 @Slf4j
 @CrossOrigin
@@ -40,8 +27,8 @@ public class GetMQMessage {
 
 
   @RequestMapping("/pullMessage")
-  public Message pullMessage(){
-    try{
+  public Message pullMessage() {
+    try {
       ConnectionFactory factory = new ConnectionFactory();
       factory.setHost("121.196.174.196");
       factory.setPort(5672);
@@ -51,49 +38,27 @@ public class GetMQMessage {
       Connection connection = factory.newConnection();
       Channel channel = connection.createChannel();
       //  定义一个队列 不清楚为什么
-      boolean duiable=true;//持久化
+      boolean duiable = true;//持久化
       boolean exclusive = false;//排他队列
-      boolean autoDelete=false;//没有consumer时，队列是否自动删除
+      boolean autoDelete = false;//没有consumer时，队列是否自动删除
       channel.queueDeclare(QUEUE_NAME, duiable, exclusive, autoDelete, null);
-      channel.exchangeDeclare(EXCHANGE_NAME,"direct",true,false,null);
-      channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"TestDirectRouting");
-      // 创建消费者
-//      Consumer consumer = new DefaultConsumer(channel) {
-//        @Override
-//        public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
-//            byte[] body) throws IOException {
-//          String msg = new String(body, "UTF-8");
-//          System.out.println("Received message : '" + msg + "'");
-//          System.out.println("consumerTag : " + consumerTag );
-//          System.out.println("deliveryTag : " + envelope.getDeliveryTag() );
-//        }
-//      };
-//      channel.basicConsume(QUEUE_NAME,true,consumer);
-//      //  拿到消息
+      channel.exchangeDeclare(EXCHANGE_NAME, "direct", true, false, null);
+      channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "TestDirectRouting");
+      //  拿到消息
       GetResponse getMessage = channel.basicGet(QUEUE_NAME, true);
-      byte[] body = getMessage.getBody();
+      if (getMessage == null) {
+        return MessageUtil.error("未获取到叫号信息");
+      }
       String s = new String(getMessage.getBody(), "UTF-8");
-//
-//      if (getMessage == null){
-//        return MessageUtil.error("未获取到RabbitMQ的消息");
-//      }else {
-//        String encoding = rabbitTemplate.getEncoding();
-//        System.out.println(encoding);
-//        System.out.println(rabbitTemplate.isRunning());
-//        //  转化消息
-//        String strMessage = new String(getMessage.getBody());
-//        return MessageUtil.success("获取成功",strMessage);
-//      }
       return MessageUtil.success(s);
-    }catch (UnsupportedEncodingException e){
-          log.error("编码错误");
-          e.printStackTrace();
-          return  MessageUtil.error("编码错误");
-    }catch (Exception e){
+    } catch (UnsupportedEncodingException e) {
+      log.error("编码错误");
+      e.printStackTrace();
+      return MessageUtil.error("编码错误");
+    } catch (Exception e) {
       //  捕获异常，打印并曝出异常
       e.printStackTrace();
       return MessageUtil.error("出现异常:" + e.toString());
     }
   }
-
 }
