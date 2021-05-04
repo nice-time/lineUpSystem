@@ -111,7 +111,14 @@
     where phone = #{phone,jdbcType=VARCHAR} and state = '0'
   </update>
 
-  <select id="searchUserInfoByPhoneNumber" resultType="com.briup.queuesystem.bean.ReslineInfo">
+    <update id="billUpdate" parameterType="com.briup.queuesystem.bean.ReslineInfo">
+    update resline_info set
+    state=#{state,jdbcType=VARCHAR},
+    endDate=NOW()
+    where phone = #{phone,jdbcType=VARCHAR} and number = #{number,jdbcType=VARCHAR} and state = '1'
+    </update>
+
+    <select id="searchUserInfoByPhoneNumber" resultType="com.briup.queuesystem.bean.ReslineInfo">
     select
     <include refid="BaseKey"/>
     from resline_info where phone = #{phoneNumbber}

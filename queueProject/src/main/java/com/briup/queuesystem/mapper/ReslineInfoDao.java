@@ -22,4 +22,6 @@ public interface ReslineInfoDao {
   List<ReslineInfo> getBigWaitUserInfo();
 
   int updateUserInfo(ReslineInfo reslineUse);
+
+  int billUpdate(ReslineInfo reslineInfo);
 }

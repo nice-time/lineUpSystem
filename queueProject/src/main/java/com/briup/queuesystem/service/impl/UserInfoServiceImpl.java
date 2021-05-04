@@ -116,6 +116,13 @@ public class UserInfoServiceImpl implements UserInfoService {
   }
 
   @Override
+  public Integer billUpdate(ReslineInfo reslineInfo) {
+    reslineInfo.setState("2");
+
+    return reslineInfoDao.billUpdate(reslineInfo);
+  }
+
+  @Override
   public List<ReslineUser> getAll() {
     return null;
   }

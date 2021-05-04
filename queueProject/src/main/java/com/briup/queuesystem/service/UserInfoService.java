@@ -22,6 +22,8 @@ public interface UserInfoService {
 
   Integer update(ReslineInfo reslineUse);
 
+  Integer billUpdate(ReslineInfo reslineInfo);
+
   List<ReslineUser> getAll();
 
   Integer del(List<String> id);
