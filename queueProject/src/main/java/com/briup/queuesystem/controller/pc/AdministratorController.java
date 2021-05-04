@@ -1,6 +1,7 @@
 package com.briup.queuesystem.controller.pc;
 
 import com.alibaba.fastjson.JSONObject;
+import com.briup.queuesystem.bean.ReslineAnnouncement;
 import com.briup.queuesystem.bean.ReslineUser;
 import com.briup.queuesystem.service.UserLoginService;
 import com.briup.queuesystem.utils.Message;
@@ -93,5 +94,34 @@ public class AdministratorController {
             return MessageUtil.error("新增或更新失败：" + e.toString());
         }
     }
+
+    @RequestMapping("/findAllComment")
+    public Message findAllComment(){
+        try{
+            List<ReslineAnnouncement> allComment = userLoginService.findAllComment();
+            return MessageUtil.success("查询成功",allComment);
+        }catch (Exception e){
+            e.printStackTrace();
+            return MessageUtil.error("查询失败：" + e.toString());
+        }
+    }
+
+    @RequestMapping("/delComment")
+    public Message delComment(@RequestBody JSONObject jsonObject){
+        try{
+            String idStr = jsonObject.getString("idList");
+            if (StringUtils.isEmpty(idStr)) {
+                return MessageUtil.error("请选择要删除的评论，idStr=" + idStr);
+            }
+            List<String> idList = Arrays.asList(idStr.split(","));
+            Integer integer = userLoginService.delComment(idList);
+            return MessageUtil.success("删除成功：" + integer);
+        }catch (Exception e){
+            e.printStackTrace();
+            return MessageUtil.error("新增或更新失败：" + e.toString());
+        }
+    }
+
+
 
 }

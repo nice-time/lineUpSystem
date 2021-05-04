@@ -1,6 +1,9 @@
 package com.briup.queuesystem.mapper;
 
+import com.briup.queuesystem.bean.ReslineAnnouncement;
 import com.briup.queuesystem.bean.ReslineUser;
+import io.swagger.models.auth.In;
+import jdk.nashorn.internal.ir.IdentNode;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -34,9 +37,22 @@ public interface UserMapper {
           "</script>")
   Integer del(List<String> list);
 
+  @Delete("<script>" +
+          "delete from resline_announcement where id in " +
+          "(" +
+          "<foreach collection='list' item='String' index='index' separator=','>" +
+          " #{String}" +
+          "</foreach>" +
+          ")" +
+          "</script>")
+  Integer delComment(List<String> list);
+
   @Select("select * from resline_user where usernumber = #{userNumber} and pwd = #{password}")
   ReslineUser userLogin(String userNumber, String password);
 
   @Select("select * from resline_user")
   List<ReslineUser> findAllUser();
+
+  @Select("select * from resline_announcement")
+  List<ReslineAnnouncement> findAllComment();
 }
