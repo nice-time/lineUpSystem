@@ -1,10 +1,8 @@
 package com.briup.queuesystem.controller.pc;
 
 import com.alibaba.fastjson.JSONObject;
-import com.briup.queuesystem.bean.ReslineAnnouncement;
-import com.briup.queuesystem.bean.ReslineSuggestInfo;
-import com.briup.queuesystem.bean.ReslineTableInfo;
-import com.briup.queuesystem.bean.ReslineUser;
+import com.briup.queuesystem.bean.*;
+import com.briup.queuesystem.service.CategoryService;
 import com.briup.queuesystem.service.TableInfoService;
 import com.briup.queuesystem.service.UserLoginService;
 import com.briup.queuesystem.utils.Message;
@@ -32,6 +30,8 @@ public class AdministratorController {
     UserLoginService userLoginService;
     @Resource
     TableInfoService tableInfoService;
+    @Resource
+    CategoryService categoryService;
 
     @RequestMapping("/findAllUser")
     public Message findAllUser() {
@@ -153,7 +153,7 @@ public class AdministratorController {
             ReslineTableInfo reslineTableInfo = new ReslineTableInfo();
             reslineTableInfo.setNumber(jsonObject.getString("number"));
             reslineTableInfo.setState(jsonObject.getString("state"));
-            reslineTableInfo.setCategroyId(jsonObject.getString("categoryId"));
+            reslineTableInfo.setCategroy_id(jsonObject.getString("categoryId"));
             //  id 为空就是新增
             if (StringUtils.isEmpty(jsonObject.getString("id"))){
                 Integer insert = tableInfoService.insert(reslineTableInfo);
@@ -195,7 +195,53 @@ public class AdministratorController {
 
 
 
+    /**
+     * 查询全部桌子详细信息
+     * @return
+     */
+    @RequestMapping("/findAllCategory")
+    public Message findAllCategory() {
+        try {
+            return categoryService.getAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MessageUtil.error("查询失败：" + e.toString());
+        }
+    }
 
+    @RequestMapping("/saveOrUpdateCategory")
+    public Message saveOrUpdateCategory(@RequestBody JSONObject jsonObject){
+        try{
+            ReslineCategory reslineCategory = new ReslineCategory();
+            reslineCategory.setType(jsonObject.getString("type"));
+            reslineCategory.setDesc1(jsonObject.getString("desc"));
+            //  id 为空就是新增
+            if (StringUtils.isEmpty(jsonObject.getString("id"))){
+                return categoryService.insert(reslineCategory);
+            }else {
+                reslineCategory.setId(jsonObject.getString("id"));
+                return categoryService.update(reslineCategory);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return MessageUtil.error("出现异常：" + e.toString());
+        }
+    }
+
+    @RequestMapping("/delCategory")
+    public Message delCategory(@RequestBody JSONObject jsonObject) {
+        try {
+            String idStr = jsonObject.getString("idList");
+            if (StringUtils.isEmpty(idStr)) {
+                return MessageUtil.error("请选择要删除信息，idStr=" + idStr);
+            }
+            List<String> idList = Arrays.asList(idStr.split(","));
+            return categoryService.del(idList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MessageUtil.error("新增或更新失败：" + e.toString());
+        }
+    }
 
 
 }

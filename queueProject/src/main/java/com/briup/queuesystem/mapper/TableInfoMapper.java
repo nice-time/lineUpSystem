@@ -19,7 +19,7 @@ public interface TableInfoMapper {
 
 
     @Insert("insert into resline_tableinfo values (#{Info.id},#{Info.number}," +
-            "#{Info.state},#{Info.categoryId},NOW(),NOW())")
+            "#{Info.state},#{Info.categroy_id},NOW(),NOW())")
     Integer insert(@Param("Info") ReslineTableInfo Info);
 
     @Update("update resline_tableinfo set number=#{Info.number},state=#{Info.state}," +

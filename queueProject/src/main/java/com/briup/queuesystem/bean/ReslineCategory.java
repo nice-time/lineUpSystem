@@ -10,7 +10,7 @@ public class ReslineCategory {
 
   private String type;
 
-  private String desc;
+  private String desc1;
 
   //YYYY-MM-DD HH:mm:SS
   private String createDate;
@@ -22,7 +22,7 @@ public class ReslineCategory {
     JSONObject jsonObject = new JSONObject();
     jsonObject.put("id", reslineCategory.getId());
     jsonObject.put("type", reslineCategory.getType());
-    jsonObject.put("desc", reslineCategory.getDesc());
+    jsonObject.put("desc", reslineCategory.getDesc1());
     jsonObject.put("createDate", reslineCategory.getCreateDate());
     jsonObject.put("lastupdate", reslineCategory.getLastupdate());
 

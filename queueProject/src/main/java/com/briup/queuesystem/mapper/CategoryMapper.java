@@ -11,11 +11,12 @@ import java.util.List;
 public interface CategoryMapper {
 
     @Insert("insert into resline_category values(#{Info.id},#{Info.type}," +
-            "#{Info.desc},sysdate,sysdate)")
-    Integer insert(ReslineCategory Info);
+            "#{Info.desc1},NOW(),NOW())")
+    Integer insert(@Param("Info") ReslineCategory Info);
 
-//    @Update("update resline_category set #{}  where id = #{}")
-//    Integer update(ReslineCategory Info);
+    @Update("update resline_category set type=#{Info.type},desc1=#{Info.desc1}," +
+            "lastupdate=NOW() where id = #{Info.id}")
+    Integer update(@Param("Info") ReslineCategory Info);
 
     @Select("select * from resline_category order by lastupdate desc")
     List<ReslineCategory> getAll();
