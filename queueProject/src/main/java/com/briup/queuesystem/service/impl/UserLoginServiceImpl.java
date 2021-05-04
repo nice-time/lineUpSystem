@@ -39,5 +39,10 @@ public class UserLoginServiceImpl implements UserLoginService {
     return userMapper.update(reslineUser);
   }
 
+  @Override
+  public Integer delUser(List<String> idList) {
+    return userMapper.del(idList);
+  }
+
 
 }

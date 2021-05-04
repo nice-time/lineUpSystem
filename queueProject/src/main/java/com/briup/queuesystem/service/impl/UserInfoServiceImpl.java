@@ -32,7 +32,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     if (Integer.parseInt(userInfo.getPeople()) > 10 || Integer.parseInt(userInfo.getPeople()) < 1) {
       return MessageUtil.error("请输入正确的人数");
     }
-    if (Integer.parseInt(userInfo.getPeople()) > 5) {
+    if (Integer.parseInt(userInfo.getPeople()) >= 5) {
       userInfo.setCategoryId(2);
     } else {
       userInfo.setCategoryId(1);

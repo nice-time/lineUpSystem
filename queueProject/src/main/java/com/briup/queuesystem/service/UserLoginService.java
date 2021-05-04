@@ -15,6 +15,6 @@ public interface UserLoginService {
 
   Integer updateUser(ReslineUser reslineUser);
 
-
+  Integer delUser(List<String> idList);
 
 }

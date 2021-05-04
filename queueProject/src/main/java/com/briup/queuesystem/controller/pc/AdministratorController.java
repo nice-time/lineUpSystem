@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,24 +38,26 @@ public class AdministratorController {
         }
     }
 
-    @RequestMapping("/addNewUser")
+    @RequestMapping("/saveOrUpdateUser")
     public Message addNewUser(@RequestBody JSONObject jsonObject){
         try{
-            //  工号 和 密码 必传
-            String userNumber = jsonObject.getString("userNumber");
-            String pwd = jsonObject.getString("pwd");
-            if (StringUtils.isEmpty(userNumber) || StringUtils.isEmpty(pwd)){
-                return MessageUtil.error("工号 或 密码 不能为空");
-            }
+
             ReslineUser reslineUser = new ReslineUser();
-            reslineUser.setUsernumber(userNumber);
-            reslineUser.setPwd(pwd);
+
             reslineUser.setUsername(jsonObject.getString("userName"));
             reslineUser.setUsername(jsonObject.getString("level"));
             reslineUser.setUsername(jsonObject.getString("phone"));
             reslineUser.setUsername(jsonObject.getString("sex"));
             Integer integer = 0;
             if (StringUtils.isEmpty(jsonObject.getString("id"))){
+                //  工号 和 密码 必传
+                String userNumber = jsonObject.getString("userNumber");
+                String pwd = jsonObject.getString("pwd");
+                reslineUser.setUsernumber(userNumber);
+                reslineUser.setPwd(pwd);
+                if (StringUtils.isEmpty(userNumber) || StringUtils.isEmpty(pwd)){
+                    return MessageUtil.error("工号 或 密码 不能为空");
+                }
                  integer = userLoginService.addNewUser(reslineUser);
                 if (integer == 1 ){
                     return MessageUtil.success("添加成功",reslineUser);
@@ -63,12 +66,32 @@ public class AdministratorController {
                 }
             }else {
                 reslineUser.setId(jsonObject.getString("id"));
-                return null;
-            }
-
+                Integer integer1 = userLoginService.updateUser(reslineUser);
+                if (integer1 == 1 ){
+                    return MessageUtil.success("更新成功",reslineUser);
+                }else {
+                    return MessageUtil.error("更新失败" + integer);
+                }            }
         }catch (Exception e){
             e.printStackTrace();
-            return MessageUtil.error("新增失败：" + e.toString());
+            return MessageUtil.error("新增或更新失败：" + e.toString());
         }
     }
+
+    @RequestMapping("/delUser")
+    public Message delUser(@RequestBody JSONObject jsonObject){
+        try{
+            String idStr = jsonObject.getString("idList");
+            if (StringUtils.isEmpty(idStr)) {
+                return MessageUtil.error("请选择要删除的用户，idStr=" + idStr);
+            }
+            List<String> idList = Arrays.asList(idStr.split(","));
+            Integer integer = userLoginService.delUser(idList);
+            return MessageUtil.success("删除成功：" + integer);
+        }catch (Exception e){
+            e.printStackTrace();
+            return MessageUtil.error("新增或更新失败：" + e.toString());
+        }
+    }
+
 }
