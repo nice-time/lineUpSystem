@@ -2,8 +2,6 @@ package com.briup.queuesystem.mapper;
 
 import com.briup.queuesystem.bean.ReslineAnnouncement;
 import com.briup.queuesystem.bean.ReslineUser;
-import io.swagger.models.auth.In;
-import jdk.nashorn.internal.ir.IdentNode;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +14,7 @@ public interface UserMapper {
 
   @Insert("insert into resline_user values(#{Info.id},#{Info.username}," +
           "#{Info.usernumber},#{Info.pwd},#{Info.level},#{Info.phone}," +
-          "#{Info.sex},createDate=NOW(),lastupdate=NOW())")
+          "#{Info.sex},NOW(),NOW())")
   Integer insert(@Param("Info") ReslineUser Info);
 
   @Update("update resline_user set username=#{Info.username},usernumber=#{Info.usernumber}," +
