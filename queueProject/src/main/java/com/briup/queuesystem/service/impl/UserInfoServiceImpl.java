@@ -143,4 +143,9 @@ public class UserInfoServiceImpl implements UserInfoService {
   public Integer del(List<String> id) {
     return null;
   }
+
+  @Override
+  public Integer updatePeople(String phone, String people) {
+    return reslineInfoDao.updatePeople(phone,people);
+  }
 }

@@ -32,4 +32,6 @@ public interface UserInfoService {
 
   Integer del(List<String> id);
 
+  Integer updatePeople(String phone,String people);
+
 }

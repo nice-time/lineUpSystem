@@ -10,6 +10,7 @@ import com.briup.queuesystem.utils.MessageUtil;
 import com.briup.queuesystem.utils.legalMatch;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -109,31 +110,64 @@ public class GetUserInfoController {
         return MessageUtil.error("请输入正确的手机号码");
       }
       //  从JSONObject入参中，取出就餐人数 peopleNum
-      String peopleNum = jsonObject.getString("peopleNum");
+      String now_peopleNum = jsonObject.getString("now_peopleNum");
       //  正则判断 入参peopleNum字符串内容是否 是数字。是：继续 不是：返回异常信息
-      if (!legalMatch.isNumber(peopleNum)) {
+      if (!legalMatch.isNumber(now_peopleNum)) {
         return MessageUtil.error("请输入正确的人数");
       }
+      //  从JSONObject入参中，取出就餐人数 peopleNum
+      String select_people = jsonObject.getString("select_people");
+      //  正则判断 入参peopleNum字符串内容是否 是数字。是：继续 不是：返回异常信息
+      if (!legalMatch.isNumber(select_people)) {
+        return MessageUtil.error("请输入正确的人数");
+      }
+
+
+
       //  将人数转为int类型
-      int peopleNumInt = Integer.parseInt(peopleNum);
-      //  新建一个 reslineinfo 对象
-      ReslineInfo reslineInfo = new ReslineInfo();
-      //  设置电话号码
-      reslineInfo.setPhone(phoneNum);
-      Integer update = userInfoService.update(reslineInfo);
-      //  设置就餐人数
-      reslineInfo.setPeople(String.valueOf(peopleNumInt));
-      Message message = userInfoService.InsertUserInfo(reslineInfo);
-      message.setMessage("重新取号成功");
-      //  插入信息
-      return message;
+      int peopleNumInt = Integer.parseInt(now_peopleNum);
+      int peopleNumInt_sel = Integer.parseInt(select_people);
+      //一共四种情况    A桌-》B桌 （特殊）    其他三种直接更新   A桌-》A桌   B桌-》A桌  B桌-》B桌
+      if(peopleNumInt_sel < 5 && peopleNumInt >=5 ){
+
+        //  新建一个 reslineinfo 对象
+        ReslineInfo reslineInfo = new ReslineInfo();
+        //  设置电话号码
+        reslineInfo.setPhone(phoneNum);
+        Integer update = userInfoService.update(reslineInfo);
+        //  设置就餐人数
+        reslineInfo.setPeople(String.valueOf(peopleNumInt));
+        Message message = userInfoService.InsertUserInfo(reslineInfo);
+        message.setMessage("叫号成功");
+        //  插入信息
+        return message;
+      }else{
+        //更新即可
+        Integer integer = userInfoService.updatePeople(phoneNum, now_peopleNum);
+
+
+        ReslineInfo reslineInfo = userInfoService.searchWaitUserInfoByPhoneNumber(phoneNum);
+
+
+        return MessageUtil.success("成功修改就餐人数", Arrays.asList(reslineInfo));
+      }
+//      //  新建一个 reslineinfo 对象
+//      ReslineInfo reslineInfo = new ReslineInfo();
+//      //  设置电话号码
+//      reslineInfo.setPhone(phoneNum);
+//      Integer update = userInfoService.update(reslineInfo);
+//      //  设置就餐人数
+//      reslineInfo.setPeople(String.valueOf(peopleNumInt));
+//      Message message = userInfoService.InsertUserInfo(reslineInfo);
+//      message.setMessage("重新取号成功");
+//      //  插入信息
+//      return message;
     } catch (Exception e) {
       //  捕获异常，打印并曝出异常
       e.printStackTrace();
       return MessageUtil.error("出现异常:" + e.toString());
     }
   }
-
 
   /**
    * 获取已取号（resline_info 有值）但未就餐（且 state为0）的用户
