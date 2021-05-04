@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +36,9 @@ public class GetUserInfoController {
 
   @Resource
   private SuggestInfoService suggestInfoService;
+
+  @Autowired
+  RedisTemplate redisTemplate;
 
   /**
    * 用户取号接口
@@ -220,5 +226,25 @@ public class GetUserInfoController {
       e.printStackTrace();
       return MessageUtil.error("出现异常:" + e.toString());
     }
+  }
+
+  static final String HINT_NUMBER_REDIS_KEY = "HINT_KEY";
+
+
+  @RequestMapping("hintUser")
+  public Message hintUser(@RequestBody JSONObject jsonObject){
+       String number = (null == jsonObject.getString("number")) ? "" :
+               jsonObject.getString("number");
+
+       if("".equals(number)){
+         return MessageUtil.error("number为空");
+       }else{
+         String msg = (String)redisTemplate.opsForValue().get(HINT_NUMBER_REDIS_KEY);
+         if(null != msg && msg.equals(number)){
+           return MessageUtil.success("提示请您吃饭啦");
+         }else{
+           return MessageUtil.error("number  不匹配  请稍等 ");
+         }
+       }
   }
 }
