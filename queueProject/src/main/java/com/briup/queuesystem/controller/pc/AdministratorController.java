@@ -46,9 +46,9 @@ public class AdministratorController {
             ReslineUser reslineUser = new ReslineUser();
 
             reslineUser.setUsername(jsonObject.getString("userName"));
-            reslineUser.setUsername(jsonObject.getString("level"));
-            reslineUser.setUsername(jsonObject.getString("phone"));
-            reslineUser.setUsername(jsonObject.getString("sex"));
+            reslineUser.setLevel(jsonObject.getString("level"));
+            reslineUser.setPhone(jsonObject.getString("phone"));
+            reslineUser.setSex(jsonObject.getString("sex"));
             Integer integer = 0;
             if (StringUtils.isEmpty(jsonObject.getString("id"))){
                 //  工号 和 密码 必传
