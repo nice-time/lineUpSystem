@@ -19,7 +19,9 @@ public interface UserMapper {
       "#{Info.sex},sysdate,sysdate)")
   Integer insert(ReslineUser Info);
 
-  @Update("")
+  @Update("update resline_user set username=#{Info.username},usernumber=#{Info.usernumber}" +
+          "pwd=#{Info.pwd},level=#{Info.level},phone=#{Info.phone}" +
+          "sex=#{Info.sex},lastupdate=sysdate")
   Integer update(ReslineUser Info);
 
   @Select("select * from resline_user order by lastupdate desc")
@@ -37,4 +39,7 @@ public interface UserMapper {
 
   @Select("select * from resline_user where usernumber = #{userNumber} and pwd = #{password}")
   ReslineUser userLogin(String userNumber, String password);
+
+  @Select("select * from resline_user")
+  List<ReslineUser> findAllUser();
 }

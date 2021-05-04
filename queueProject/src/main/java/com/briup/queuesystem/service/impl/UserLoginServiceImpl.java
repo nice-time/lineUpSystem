@@ -6,6 +6,8 @@ import com.briup.queuesystem.service.UserLoginService;
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserLoginServiceImpl implements UserLoginService {
 
@@ -21,4 +23,21 @@ public class UserLoginServiceImpl implements UserLoginService {
       return null;
     }
   }
+
+  @Override
+  public List<ReslineUser> findAllUser() {
+    return userMapper.findAllUser();
+  }
+
+  @Override
+  public Integer addNewUser(ReslineUser reslineUser) {
+    return userMapper.insert(reslineUser);
+  }
+
+  @Override
+  public Integer updateUser(ReslineUser reslineUser) {
+    return userMapper.update(reslineUser);
+  }
+
+
 }
