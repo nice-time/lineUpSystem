@@ -2,7 +2,10 @@ package com.briup.queuesystem.controller.pc;
 
 import com.alibaba.fastjson.JSONObject;
 import com.briup.queuesystem.bean.ReslineAnnouncement;
+import com.briup.queuesystem.bean.ReslineSuggestInfo;
+import com.briup.queuesystem.bean.ReslineTableInfo;
 import com.briup.queuesystem.bean.ReslineUser;
+import com.briup.queuesystem.service.TableInfoService;
 import com.briup.queuesystem.service.UserLoginService;
 import com.briup.queuesystem.utils.Message;
 import com.briup.queuesystem.utils.MessageUtil;
@@ -27,6 +30,8 @@ public class AdministratorController {
 
     @Resource
     UserLoginService userLoginService;
+    @Resource
+    TableInfoService tableInfoService;
 
     @RequestMapping("/findAllUser")
     public Message findAllUser() {
@@ -103,7 +108,7 @@ public class AdministratorController {
     @RequestMapping("/findAllComment")
     public Message findAllComment() {
         try {
-            List<ReslineAnnouncement> allComment = userLoginService.findAllComment();
+            List<ReslineSuggestInfo> allComment = userLoginService.findAllComment();
             return MessageUtil.success("查询成功", allComment);
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,6 +131,71 @@ public class AdministratorController {
             return MessageUtil.error("新增或更新失败：" + e.toString());
         }
     }
+
+    /**
+     * 查询全部桌子详细信息
+     * @return
+     */
+    @RequestMapping("/findAllTableInfo")
+    public Message findAllTableInfo() {
+        try {
+            List<ReslineTableInfo> allComment = tableInfoService.getAll();
+            return MessageUtil.success("查询成功", allComment);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MessageUtil.error("查询失败：" + e.toString());
+        }
+    }
+
+    @RequestMapping("/saveOrUpdateTableInfo")
+    public Message saveOrUpdateTableInfo(@RequestBody JSONObject jsonObject){
+        try{
+            ReslineTableInfo reslineTableInfo = new ReslineTableInfo();
+            reslineTableInfo.setNumber(jsonObject.getString("number"));
+            reslineTableInfo.setState(jsonObject.getString("state"));
+            reslineTableInfo.setCategroyId(jsonObject.getString("categoryId"));
+            //  id 为空就是新增
+            if (StringUtils.isEmpty(jsonObject.getString("id"))){
+                Integer insert = tableInfoService.insert(reslineTableInfo);
+                if (insert>0){
+                    return MessageUtil.success("新增成功",reslineTableInfo);
+                }else {
+                    return MessageUtil.error("新增失败请联系管理员：" + insert);
+                }
+            }else {
+                reslineTableInfo.setId(jsonObject.getString("id"));
+                Integer update = tableInfoService.update(reslineTableInfo);
+                if (update>0){
+                    return MessageUtil.success("更新成功",reslineTableInfo);
+                }else {
+                    return MessageUtil.error("更新失败请联系管理员：" + update);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return MessageUtil.error("出现异常：" + e.toString());
+        }
+    }
+
+    @RequestMapping("/delTableInfo")
+    public Message delTableInfo(@RequestBody JSONObject jsonObject) {
+        try {
+            String idStr = jsonObject.getString("idList");
+            if (StringUtils.isEmpty(idStr)) {
+                return MessageUtil.error("请选择要删除信息，idStr=" + idStr);
+            }
+            List<String> idList = Arrays.asList(idStr.split(","));
+            Integer integer = tableInfoService.del(idList);
+            return MessageUtil.success("删除成功：" + integer);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MessageUtil.error("新增或更新失败：" + e.toString());
+        }
+    }
+
+
+
+
 
 
 }

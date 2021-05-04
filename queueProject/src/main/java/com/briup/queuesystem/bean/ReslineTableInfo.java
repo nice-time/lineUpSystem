@@ -12,7 +12,7 @@ public class ReslineTableInfo {
 
   private String state;
 
-  private String categroy_id;
+  private String categroyId;
 
   //YYYY-MM-DD HH:mm:SS
   private String createDate;
@@ -25,7 +25,7 @@ public class ReslineTableInfo {
     jsonObject.put("id", reslineTableInfo.getId());
     jsonObject.put("number", reslineTableInfo.getNumber());
     jsonObject.put("state", reslineTableInfo.getState());
-    jsonObject.put("categroy_id", reslineTableInfo.getCategroy_id());
+    jsonObject.put("categroy_id", reslineTableInfo.getCategroyId());
     jsonObject.put("createDate", reslineTableInfo.getCreateDate());
     jsonObject.put("lastupdate", reslineTableInfo.getLastupdate());
 

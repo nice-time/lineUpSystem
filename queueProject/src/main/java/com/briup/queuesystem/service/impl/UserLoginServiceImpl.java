@@ -1,6 +1,7 @@
 package com.briup.queuesystem.service.impl;
 
 import com.briup.queuesystem.bean.ReslineAnnouncement;
+import com.briup.queuesystem.bean.ReslineSuggestInfo;
 import com.briup.queuesystem.bean.ReslineUser;
 import com.briup.queuesystem.mapper.UserMapper;
 import com.briup.queuesystem.service.UserLoginService;
@@ -31,7 +32,7 @@ public class UserLoginServiceImpl implements UserLoginService {
   }
 
   @Override
-  public List<ReslineAnnouncement> findAllComment() {
+  public List<ReslineSuggestInfo> findAllComment() {
     return userMapper.findAllComment();
   }
 

@@ -1,8 +1,14 @@
 package com.briup.queuesystem.mapper;
 
-import com.briup.queuesystem.bean.ReslineAnnouncement;
 import com.briup.queuesystem.bean.ReslineTableInfo;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,12 +18,13 @@ import java.util.List;
 public interface TableInfoMapper {
 
 
-    @Insert("insert into resline_tableinfo values(#{Info.id},#{Info.number}," +
-            "#{Info.state},#{Info.category_id},sysdate,sysdate)")
-    Integer insert(ReslineTableInfo Info);
-//
-//    @Update("update resline_tableinfo set #{}  where id = #{}")
-//    Integer update(ReslineTableInfo Info);
+    @Insert("insert into resline_tableinfo values (#{Info.id},#{Info.number}," +
+            "#{Info.state},#{Info.categoryId},NOW(),NOW())")
+    Integer insert(@Param("Info") ReslineTableInfo Info);
+
+    @Update("update resline_tableinfo set number=#{Info.number},state=#{Info.state}," +
+            "category_id=#{Info.categroy_id},lastupdate=NOW() where id = #{Info.id} ")
+    Integer update(@Param("Info") ReslineTableInfo Info);
 
     @Select("select * from resline_tableinfo order by lastupdate desc")
     List<ReslineTableInfo> getAll();
