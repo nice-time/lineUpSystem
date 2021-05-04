@@ -24,4 +24,8 @@ public interface ReslineInfoDao {
   int updateUserInfo(ReslineInfo reslineUse);
 
   int billUpdate(ReslineInfo reslineInfo);
+
+  int confirmMeal(ReslineInfo reslineInfo);
+
+  int cancelMeal(ReslineInfo reslineInfo);
 }

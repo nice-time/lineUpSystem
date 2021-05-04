@@ -123,6 +123,18 @@ public class UserInfoServiceImpl implements UserInfoService {
   }
 
   @Override
+  public Integer confirmMeal(ReslineInfo reslineInfo) {
+    reslineInfo.setState("2");
+    return reslineInfoDao.confirmMeal(reslineInfo);
+  }
+
+  @Override
+  public Integer cancelMeal(ReslineInfo reslineInfo) {
+    reslineInfo.setState("3");
+    return reslineInfoDao.cancelMeal(reslineInfo);
+  }
+
+  @Override
   public List<ReslineUser> getAll() {
     return null;
   }

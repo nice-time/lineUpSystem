@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.briup.queuesystem.mapper.ReslineInfoDao">
   <resultMap id="BaseResultMap" type="com.briup.queuesystem.bean.ReslineInfo">
     <result column="phone" jdbcType="VARCHAR" property="phone"/>
@@ -111,26 +111,40 @@
     where phone = #{phone,jdbcType=VARCHAR} and state = '0'
   </update>
 
-    <update id="billUpdate" parameterType="com.briup.queuesystem.bean.ReslineInfo">
+  <update id="billUpdate" parameterType="com.briup.queuesystem.bean.ReslineInfo">
     update resline_info set
     state=#{state,jdbcType=VARCHAR},
     endDate=NOW()
     where phone = #{phone,jdbcType=VARCHAR} and number = #{number,jdbcType=VARCHAR} and state = '1'
     </update>
 
-    <select id="searchUserInfoByPhoneNumber" resultType="com.briup.queuesystem.bean.ReslineInfo">
+  <update id="confirmMeal" parameterType="com.briup.queuesystem.bean.ReslineInfo">
+    update resline_info set
+    state=#{state,jdbcType=VARCHAR},
+    eatDate=NOW()
+    where phone = #{phone,jdbcType=VARCHAR} and number = #{number,jdbcType=VARCHAR} and state = '0'
+    </update>
+  <update id="cancelMeal" parameterType="com.briup.queuesystem.bean.ReslineInfo">
+        update resline_info set
+    state=#{state,jdbcType=VARCHAR},
+    endDate=NOW()
+    where phone = #{phone,jdbcType=VARCHAR} and state = '0'
+  </update>
+
+  <select id="searchUserInfoByPhoneNumber" resultType="com.briup.queuesystem.bean.ReslineInfo">
     select
     <include refid="BaseKey"/>
     from resline_info where phone = #{phoneNumbber}
   </select>
   <select id="searchWaitUserInfoByPhoneNumber"
-    resultType="com.briup.queuesystem.bean.ReslineInfo">
+          resultType="com.briup.queuesystem.bean.ReslineInfo">
     select
     <include refid="BaseKey"/>
-    from resline_info where phone = #{phoneNumbber} AND p_day = DATE_FORMAT(NOW(),'%Y%m%d') ORDER BY createDate DESC LIMIT 1
+    from resline_info where phone = #{phoneNumbber} AND p_day = DATE_FORMAT(NOW(),'%Y%m%d') ORDER BY createDate DESC
+    LIMIT 1
   </select>
 
-<!--  获取所有等待就餐的顾客  按创建时间升序排列 -->
+  <!--  获取所有等待就餐的顾客  按创建时间升序排列 -->
   <select id="getSmallWaitUserInfo" resultType="com.briup.queuesystem.bean.ReslineInfo">
     select
     <include refid="BaseKey"/>
