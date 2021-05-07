@@ -1,5 +1,6 @@
 package com.briup.queuesystem.service;
 
+import com.briup.queuesystem.bean.ReslineCategoryExtends;
 import com.briup.queuesystem.bean.ReslineTableInfo;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ public interface TableInfoService {
 
   Integer update(ReslineTableInfo reslineTableInfo);
 
-  List<ReslineTableInfo> getAll();
+  List<ReslineCategoryExtends> getAll();
 
   Integer del(List<String> id);
 

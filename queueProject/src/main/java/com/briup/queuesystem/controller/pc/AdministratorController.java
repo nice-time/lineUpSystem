@@ -139,7 +139,7 @@ public class AdministratorController {
     @RequestMapping("/findAllTableInfo")
     public Message findAllTableInfo() {
         try {
-            List<ReslineTableInfo> allComment = tableInfoService.getAll();
+            List<ReslineCategoryExtends> allComment = tableInfoService.getAll();
             return MessageUtil.success("查询成功", allComment);
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,7 +153,7 @@ public class AdministratorController {
             ReslineTableInfo reslineTableInfo = new ReslineTableInfo();
             reslineTableInfo.setNumber(jsonObject.getString("number"));
             reslineTableInfo.setState(jsonObject.getString("state"));
-            reslineTableInfo.setCategroy_id(jsonObject.getString("categoryId"));
+            reslineTableInfo.setCategory_id(jsonObject.getString("categoryId"));
             //  id 为空就是新增
             if (StringUtils.isEmpty(jsonObject.getString("id"))){
                 Integer insert = tableInfoService.insert(reslineTableInfo);

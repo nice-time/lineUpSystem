@@ -1,5 +1,6 @@
 package com.briup.queuesystem.service.impl;
 
+import com.briup.queuesystem.bean.ReslineCategoryExtends;
 import com.briup.queuesystem.bean.ReslineTableInfo;
 import com.briup.queuesystem.mapper.TableInfoMapper;
 import com.briup.queuesystem.service.TableInfoService;
@@ -30,7 +31,7 @@ public class TableInfoServiceImpl implements TableInfoService {
     }
 
     @Override
-    public List<ReslineTableInfo> getAll() {
+    public List<ReslineCategoryExtends> getAll() {
         return tableInfoMapper.getAll();
     }
 

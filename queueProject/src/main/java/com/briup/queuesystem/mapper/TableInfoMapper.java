@@ -1,5 +1,6 @@
 package com.briup.queuesystem.mapper;
 
+import com.briup.queuesystem.bean.ReslineCategoryExtends;
 import com.briup.queuesystem.bean.ReslineTableInfo;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -26,8 +27,8 @@ public interface TableInfoMapper {
             "category_id=#{Info.categroy_id},lastupdate=NOW() where id = #{Info.id} ")
     Integer update(@Param("Info") ReslineTableInfo Info);
 
-    @Select("select * from resline_tableinfo order by lastupdate desc")
-    List<ReslineTableInfo> getAll();
+    @Select("select a.*,b.type from resline_tableinfo a,resline_category b where a.category_id = b.id order by a.lastupdate desc")
+    List<ReslineCategoryExtends> getAll();
 
     @Delete("<script>" +
             "delete from resline_tableinfo where id in " +

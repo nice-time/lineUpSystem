@@ -1,6 +1,7 @@
 package com.briup.queuesystem.bean;
 
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
@@ -12,7 +13,7 @@ public class ReslineTableInfo {
 
   private String state;
 
-  private String categroy_id;
+  private String category_id;
 
   //YYYY-MM-DD HH:mm:SS
   private String createDate;
@@ -25,7 +26,7 @@ public class ReslineTableInfo {
     jsonObject.put("id", reslineTableInfo.getId());
     jsonObject.put("number", reslineTableInfo.getNumber());
     jsonObject.put("state", reslineTableInfo.getState());
-    jsonObject.put("categroy_id", reslineTableInfo.getCategroy_id());
+    jsonObject.put("categroy_id", reslineTableInfo.getCategory_id());
     jsonObject.put("createDate", reslineTableInfo.getCreateDate());
     jsonObject.put("lastupdate", reslineTableInfo.getLastupdate());
 
