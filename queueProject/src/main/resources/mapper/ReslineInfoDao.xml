@@ -121,13 +121,13 @@
   <update id="confirmMeal" parameterType="com.briup.queuesystem.bean.ReslineInfo">
     update resline_info set
     state=#{state,jdbcType=VARCHAR},
-    eatDate=NOW()
+    eatDate=NOW(),
+    table_id = #{tableId,jdbcType=VARCHAR}
     where phone = #{phone,jdbcType=VARCHAR} and number = #{number,jdbcType=VARCHAR} and state = '0'
     </update>
   <update id="cancelMeal" parameterType="com.briup.queuesystem.bean.ReslineInfo">
         update resline_info set
-    state=#{state,jdbcType=VARCHAR},
-    endDate=NOW()
+    state=#{state,jdbcType=VARCHAR}
     where phone = #{phone,jdbcType=VARCHAR} and state = '0'
   </update>
 
@@ -157,14 +157,14 @@
     from resline_info where people &gt;= 5 and state = 0;
   </select>
 
-  <select id="selectBeforePeopleNum" resultType="java.lang.Integer">
-    SELECT count( 1 ) num
-    FROM resline_info
-    WHERE
-    createDate &lt; ( SELECT createDate FROM resline_info WHERE phone = #{phoneNumber} ORDER BY createDate DESC LIMIT 1 )
-    AND state = '0'
-    and
-    SUBSTR(number,1,1) = (SELECT SUBSTR(number,1,1) FROM resline_info WHERE phone = #{phoneNumber} ORDER BY createDate DESC LIMIT 1)
-  </select>
+<!--  <select id="selectBeforePeopleNum" resultType="java.lang.Integer">-->
+<!--    SELECT count( 1 ) num-->
+<!--    FROM resline_info-->
+<!--    WHERE-->
+<!--    createDate &lt; ( SELECT createDate FROM resline_info WHERE phone = #{phoneNumber} ORDER BY createDate DESC LIMIT 1 )-->
+<!--    AND state = '0'-->
+<!--    and-->
+<!--    SUBSTR(number,1,1) = (SELECT SUBSTR(number,1,1) FROM resline_info WHERE phone = #{phoneNumber} ORDER BY createDate DESC LIMIT 1)-->
+<!--  </select>-->
 
 </mapper>

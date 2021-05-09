@@ -228,7 +228,8 @@ public class GetUserInfoController {
     }
   }
 
-  static final String HINT_NUMBER_REDIS_KEY = "HINT_KEY";
+  static final String HINT_NUMBER_REDIS_KEY_A = "HINT_KEY_A";
+  static final String HINT_NUMBER_REDIS_KEY_B = "HINT_KEY_B";
 
 
   @RequestMapping("hintUser")
@@ -239,12 +240,32 @@ public class GetUserInfoController {
        if("".equals(number)){
          return MessageUtil.error("number为空");
        }else{
-         String msg = (String)redisTemplate.opsForValue().get(HINT_NUMBER_REDIS_KEY);
+         String msg = "";
+         if(number.substring(0,1).equals("A")){
+          msg =  (String)redisTemplate.opsForValue().get(HINT_NUMBER_REDIS_KEY_A);
+
+         }else{
+          msg =  (String)redisTemplate.opsForValue().get(HINT_NUMBER_REDIS_KEY_B);
+
+         }
          if(null != msg && msg.equals(number)){
            return MessageUtil.success("提示请您吃饭啦");
          }else{
            return MessageUtil.error("number  不匹配  请稍等 ");
          }
        }
+  }
+
+  @RequestMapping("toreminded")
+  public Message toreminded(@RequestBody JSONObject jsonObject){
+
+    String number = jsonObject.getString("number");
+    if(number.substring(0,1).equals("A")){
+      redisTemplate.opsForValue().set(HINT_NUMBER_REDIS_KEY_A,number);
+    }else{
+      redisTemplate.opsForValue().set(HINT_NUMBER_REDIS_KEY_B,number);
+    }
+    return MessageUtil.success("成功");
+
   }
 }

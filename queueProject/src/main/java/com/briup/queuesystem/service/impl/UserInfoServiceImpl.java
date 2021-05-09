@@ -124,7 +124,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
   @Override
   public Integer confirmMeal(ReslineInfo reslineInfo) {
-    reslineInfo.setState("2");
+    reslineInfo.setState("1");
     return reslineInfoDao.confirmMeal(reslineInfo);
   }
 
@@ -148,4 +148,6 @@ public class UserInfoServiceImpl implements UserInfoService {
   public Integer updatePeople(String phone, String people) {
     return reslineInfoDao.updatePeople(phone,people);
   }
+
+
 }

@@ -34,4 +34,6 @@ public interface UserInfoService {
 
   Integer updatePeople(String phone,String people);
 
+
+
 }

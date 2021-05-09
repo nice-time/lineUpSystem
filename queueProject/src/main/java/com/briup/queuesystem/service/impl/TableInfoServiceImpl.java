@@ -1,5 +1,6 @@
 package com.briup.queuesystem.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.briup.queuesystem.bean.ReslineCategoryExtends;
 import com.briup.queuesystem.bean.ReslineTableInfo;
 import com.briup.queuesystem.mapper.TableInfoMapper;
@@ -32,7 +33,17 @@ public class TableInfoServiceImpl implements TableInfoService {
 
     @Override
     public List<ReslineCategoryExtends> getAll() {
-        return tableInfoMapper.getAll();
+        List<JSONObject> getalltablenumber = tableInfoMapper.getalltablenumber();
+        List<ReslineCategoryExtends> all = tableInfoMapper.getAll();
+        all.stream().forEach(v->{
+            for(JSONObject item : getalltablenumber){
+                if(v.getId().equals(item.getString("table_id"))){
+                    v.setResnumber(item.getString("number"));
+                    v.setPhone(item.getString("phone"));
+                }
+            }
+        });
+        return all;
     }
 
     @Override
