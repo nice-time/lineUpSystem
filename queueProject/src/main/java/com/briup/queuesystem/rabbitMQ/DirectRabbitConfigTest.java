@@ -7,7 +7,9 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/** @author lijx */
+/**
+ * @author lijx
+ */
 @Configuration
 public class DirectRabbitConfigTest {
 
@@ -20,7 +22,7 @@ public class DirectRabbitConfigTest {
     //   return new Queue("TestDirectQueue",true,true,false);
 
     // 一般设置一下队列的持久化就好,其余两个就是默认false
-    return new Queue("TestDirectQueue", true);
+    return new Queue("TestDirectQueue", true,false,false);
   }
 
   // Direct交换机 起名：TestDirectExchange

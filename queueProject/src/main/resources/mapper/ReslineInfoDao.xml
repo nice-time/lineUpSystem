@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.briup.queuesystem.mapper.ReslineInfoDao">
   <resultMap id="BaseResultMap" type="com.briup.queuesystem.bean.ReslineInfo">
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="people" jdbcType="VARCHAR" property="people" />
-    <result column="state" jdbcType="VARCHAR" property="state" />
-    <result column="number" jdbcType="VARCHAR" property="number" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
-    <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
-    <result column="eatDate" jdbcType="TIMESTAMP" property="eatdate" />
-    <result column="endDate" jdbcType="TIMESTAMP" property="enddate" />
-    <result column="p_day" jdbcType="VARCHAR" property="pDay" />
-    <result column="table_id" jdbcType="VARCHAR" property="tableId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone"/>
+    <result column="people" jdbcType="VARCHAR" property="people"/>
+    <result column="state" jdbcType="VARCHAR" property="state"/>
+    <result column="number" jdbcType="VARCHAR" property="number"/>
+    <result column="description" jdbcType="VARCHAR" property="description"/>
+    <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+    <result column="createDate" jdbcType="TIMESTAMP" property="createdate"/>
+    <result column="eatDate" jdbcType="TIMESTAMP" property="eatdate"/>
+    <result column="endDate" jdbcType="TIMESTAMP" property="enddate"/>
+    <result column="p_day" jdbcType="VARCHAR" property="pDay"/>
+    <result column="table_id" jdbcType="VARCHAR" property="tableId"/>
   </resultMap>
+
+  <sql id="BaseKey">
+    phone,people,state,number,description,category_id,createDate,eatDate,endDate,p_day,table_id
+  </sql>
+
   <insert id="insert" parameterType="com.briup.queuesystem.bean.ReslineInfo">
     insert into resline_info (phone, people, `state`, 
       `number`, description, category_id, 
@@ -97,4 +103,68 @@
       </if>
     </trim>
   </insert>
+
+
+  <update id="updateUserInfo" parameterType="com.briup.queuesystem.bean.ReslineInfo">
+    update resline_info set
+    state=#{state,jdbcType=VARCHAR}
+    where phone = #{phone,jdbcType=VARCHAR} and state = '0'
+  </update>
+
+  <update id="billUpdate" parameterType="com.briup.queuesystem.bean.ReslineInfo">
+    update resline_info set
+    state=#{state,jdbcType=VARCHAR},
+    endDate=NOW()
+    where phone = #{phone,jdbcType=VARCHAR} and number = #{number,jdbcType=VARCHAR} and state = '1'
+    </update>
+
+  <update id="confirmMeal" parameterType="com.briup.queuesystem.bean.ReslineInfo">
+    update resline_info set
+    state=#{state,jdbcType=VARCHAR},
+    eatDate=NOW(),
+    table_id = #{tableId,jdbcType=VARCHAR}
+    where phone = #{phone,jdbcType=VARCHAR} and number = #{number,jdbcType=VARCHAR} and state = '0'
+    </update>
+  <update id="cancelMeal" parameterType="com.briup.queuesystem.bean.ReslineInfo">
+        update resline_info set
+    state=#{state,jdbcType=VARCHAR}
+    where phone = #{phone,jdbcType=VARCHAR} and state = '0'
+  </update>
+
+  <select id="searchUserInfoByPhoneNumber" resultType="com.briup.queuesystem.bean.ReslineInfo">
+    select
+    <include refid="BaseKey"/>
+    from resline_info where phone = #{phoneNumbber}
+  </select>
+  <select id="searchWaitUserInfoByPhoneNumber"
+          resultType="com.briup.queuesystem.bean.ReslineInfo">
+    select
+    <include refid="BaseKey"/>
+    from resline_info where phone = #{phoneNumbber} AND p_day = DATE_FORMAT(NOW(),'%Y%m%d') ORDER BY createDate DESC
+    LIMIT 1
+  </select>
+
+  <!--  获取所有等待就餐的顾客  按创建时间升序排列 -->
+  <select id="getSmallWaitUserInfo" resultType="com.briup.queuesystem.bean.ReslineInfo">
+    select
+    <include refid="BaseKey"/>
+    from resline_info where people &lt;= 5 and state = 0;
+  </select>
+
+  <select id="getBigWaitUserInfo" resultType="com.briup.queuesystem.bean.ReslineInfo">
+    select
+    <include refid="BaseKey"/>
+    from resline_info where people &gt;= 5 and state = 0;
+  </select>
+
+<!--  <select id="selectBeforePeopleNum" resultType="java.lang.Integer">-->
+<!--    SELECT count( 1 ) num-->
+<!--    FROM resline_info-->
+<!--    WHERE-->
+<!--    createDate &lt; ( SELECT createDate FROM resline_info WHERE phone = #{phoneNumber} ORDER BY createDate DESC LIMIT 1 )-->
+<!--    AND state = '0'-->
+<!--    and-->
+<!--    SUBSTR(number,1,1) = (SELECT SUBSTR(number,1,1) FROM resline_info WHERE phone = #{phoneNumber} ORDER BY createDate DESC LIMIT 1)-->
+<!--  </select>-->
+
 </mapper>
