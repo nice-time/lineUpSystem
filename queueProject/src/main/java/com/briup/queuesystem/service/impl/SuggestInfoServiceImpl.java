@@ -20,7 +20,7 @@ public class SuggestInfoServiceImpl implements SuggestInfoService {
   public int insert(ReslineSuggestInfo reslineSuggestInfo) throws ParseException {
     Date date = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    Date parse = formatter.parse(formatter.format(date));
+    String parse = formatter.format(date);
     reslineSuggestInfo.setTime(parse);
 //    reslineSuggestInfo.setSuggestId("1");
     return suggestInfoMapper.insert(reslineSuggestInfo);

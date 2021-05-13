@@ -18,7 +18,7 @@ public interface CategoryMapper {
             "lastupdate=NOW() where id = #{Info.id}")
     Integer update(@Param("Info") ReslineCategory Info);
 
-    @Select("select * from resline_category order by lastupdate desc")
+    @Select("select * from resline_category order by createDate ")
     List<ReslineCategory> getAll();
 
     @Delete("<script>" +

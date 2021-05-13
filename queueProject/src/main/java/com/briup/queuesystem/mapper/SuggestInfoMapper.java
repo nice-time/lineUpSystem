@@ -16,7 +16,7 @@ public interface SuggestInfoMapper {
 
 
     @Insert("insert into resline_suggestInfo values(#{Info.suggestId},#{Info.name}," +
-            "#{Info.number},#{Info.suggestion},#{Info.time})")
+            "#{Info.number},#{Info.suggestion},STR_TO_DATE(#{Info.time},'%Y-%m-%d %H:%i:%s'))")
     Integer insert(@Param("Info") ReslineSuggestInfo Info);
 
     @Update("")

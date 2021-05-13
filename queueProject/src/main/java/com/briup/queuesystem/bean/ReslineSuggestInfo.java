@@ -16,7 +16,7 @@ public class ReslineSuggestInfo {
 
   private String suggestion;
 
-  private Date time;
+  private String time;
 
 
   public JSONObject toJsonObject(ReslineSuggestInfo reslineSuggestInfo) {

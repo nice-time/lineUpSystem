@@ -87,7 +87,7 @@ public interface ReslineInfoDao {
           ")")
   Integer updatePeople(String phone, String people);
 
-  @Select("select d.*,c.id type_id,c.type from \n" +
+  @Select("select d.*,c.id type_id,c.type,c.desc1 from \n" +
           "\tresline_category c LEFT JOIN  (SELECT\n" +
           "\ta.number,\n" +
           "a.category_id,\n" +

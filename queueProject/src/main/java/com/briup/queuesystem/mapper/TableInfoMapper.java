@@ -20,12 +20,12 @@ import java.util.List;
 public interface TableInfoMapper {
 
 
-    @Insert("insert into resline_tableinfo values (#{Info.id},#{Info.number}," +
-            "#{Info.state},#{Info.categroy_id},NOW(),NOW())")
+    @Insert("insert into resline_tableinfo(number,state,category_id,createDate,lastupdate) values (#{Info.number}," +
+            "#{Info.state},#{Info.category_id},NOW(),NOW())")
     Integer insert(@Param("Info") ReslineTableInfo Info);
 
     @Update("update resline_tableinfo set number=#{Info.number},state=#{Info.state}," +
-            "category_id=#{Info.categroy_id},lastupdate=NOW() where id = #{Info.id} ")
+            "category_id=#{Info.category_id},lastupdate=NOW() where id = #{Info.id} ")
     Integer update(@Param("Info") ReslineTableInfo Info);
 
     @Select("select a.*,b.id type_id,b.type from resline_tableinfo a,resline_category b where a.category_id = b.id order by a.lastupdate desc")
